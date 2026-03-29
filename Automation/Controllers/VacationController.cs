@@ -20,6 +20,7 @@ public class VacationController
     {
         return _context.Vacations
             .Include(v => v.Employee)
+                .ThenInclude(e => e.Department)
             .OrderByDescending(v => v.StartDate)
             .ToList();
     }
@@ -36,6 +37,7 @@ public class VacationController
     {
         return _context.Vacations
             .Include(v => v.Employee)
+                .ThenInclude(e => e.Department)
             .Where(v => v.Status == VacationStatus.Pending)
             .ToList();
     }

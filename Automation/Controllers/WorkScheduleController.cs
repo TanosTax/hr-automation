@@ -16,21 +16,33 @@ public class WorkScheduleController
         _context = context;
     }
     
-    public List<WorkSchedule> GetByEmployee(int employeeId, DateTime startDate, DateTime endDate)
+    public List<WorkSchedule> GetAll()
     {
         return _context.WorkSchedules
+            .Include(w => w.Employee)
+            .ThenInclude(e => e.Department)
+            .OrderByDescending(w => w.Date)
+            .ToList();
+    }
+    
+    public List<WorkSchedule> GetByEmployee(int employeeId, DateTime startDate, DateTime endDate)
+    {
+        var utcStart = DateTime.SpecifyKind(startDate, DateTimeKind.Utc);
+        var utcEnd = DateTime.SpecifyKind(endDate, DateTimeKind.Utc);
+        return _context.WorkSchedules
             .Where(w => w.EmployeeId == employeeId && 
-                       w.Date >= startDate && 
-                       w.Date <= endDate)
+                       w.Date >= utcStart && 
+                       w.Date <= utcEnd)
             .OrderBy(w => w.Date)
             .ToList();
     }
     
     public List<WorkSchedule> GetByDate(DateTime date)
     {
+        var utcDate = DateTime.SpecifyKind(date.Date, DateTimeKind.Utc);
         return _context.WorkSchedules
             .Include(w => w.Employee)
-            .Where(w => w.Date.Date == date.Date)
+            .Where(w => w.Date.Date == utcDate.Date)
             .ToList();
     }
     
@@ -48,15 +60,16 @@ public class WorkScheduleController
     
     public void MarkAbsent(int employeeId, DateTime date, string reason)
     {
+        var utcDate = DateTime.SpecifyKind(date.Date, DateTimeKind.Utc);
         var schedule = _context.WorkSchedules
-            .FirstOrDefault(w => w.EmployeeId == employeeId && w.Date.Date == date.Date);
+            .FirstOrDefault(w => w.EmployeeId == employeeId && w.Date.Date == utcDate.Date);
         
         if (schedule == null)
         {
             schedule = new WorkSchedule
             {
                 EmployeeId = employeeId,
-                Date = date,
+                Date = utcDate,
                 IsAbsent = true,
                 AbsenceReason = reason
             };

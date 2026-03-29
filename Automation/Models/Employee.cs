@@ -65,4 +65,7 @@ public class Employee
     
     [NotMapped]
     public string FullName => $"{LastName} {FirstName} {MiddleName}".Trim();
+    
+    [NotMapped]
+    public int Age => DateTime.Now.Year - BirthDate.Year - (DateTime.Now.DayOfYear < BirthDate.DayOfYear ? 1 : 0);
 }

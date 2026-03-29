@@ -60,7 +60,7 @@ public partial class DepartmentFormWindow : Window
             
             Close();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Обработка ошибок
         }

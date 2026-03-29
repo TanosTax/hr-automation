@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Automation.Controllers;
@@ -10,29 +10,48 @@ namespace Automation.Views;
 
 public partial class EmployeeListView : UserControl
 {
-    private readonly EmployeeController _controller;
+    private ObservableCollection<Employee> _employees = new();
     
     public EmployeeListView()
     {
         InitializeComponent();
-        _controller = new EmployeeController(DatabaseService.GetContext());
-        LoadData();
+        System.Diagnostics.Debug.WriteLine("EmployeeListView: Инициализация...");
+        
+        EmployeesGrid.ItemsSource = _employees;
+        
+        this.Loaded += (s, e) =>
+        {
+            System.Diagnostics.Debug.WriteLine("EmployeeListView: Loaded event");
+            LoadData();
+        };
     }
     
     private void LoadData()
     {
         try
         {
-            var employees = _controller.GetActive();
-            EmployeesGrid.ItemsSource = employees;
+            using var context = DatabaseService.GetContext();
+            var controller = new EmployeeController(context);
+            var employees = controller.GetActive();
+            System.Diagnostics.Debug.WriteLine($"Загружено сотрудников: {employees.Count}");
+            
+            _employees.Clear();
+            foreach (var emp in employees)
+            {
+                _employees.Add(emp);
+            }
+            
+            System.Diagnostics.Debug.WriteLine($"ObservableCollection содержит: {_employees.Count} элементов");
         }
         catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"ОШИБКА: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"StackTrace: {ex.StackTrace}");
             ShowError($"Ошибка загрузки данных: {ex.Message}");
         }
     }
     
-    private void OnSearch(object? sender, RoutedEventArgs e)
+    private void OnSearchTextChanged(object? sender, TextChangedEventArgs e)
     {
         var query = SearchBox.Text?.Trim();
         if (string.IsNullOrEmpty(query))
@@ -41,35 +60,46 @@ public partial class EmployeeListView : UserControl
         }
         else
         {
-            var results = _controller.Search(query);
-            EmployeesGrid.ItemsSource = results;
+            using var context = DatabaseService.GetContext();
+            var controller = new EmployeeController(context);
+            var results = controller.Search(query);
+            _employees.Clear();
+            foreach (var emp in results)
+            {
+                _employees.Add(emp);
+            }
         }
     }
     
-    private void OnAdd(object? sender, RoutedEventArgs e)
+    private void OnSearch(object? sender, RoutedEventArgs e)
+    {
+        OnSearchTextChanged(sender, null!);
+    }
+    
+    private async void OnAdd(object? sender, RoutedEventArgs e)
     {
         var window = new EmployeeFormWindow();
-        window.ShowDialog((Window)this.VisualRoot!);
+        await window.ShowDialog((Window)this.VisualRoot!);
         LoadData();
     }
     
-    private void OnView(object? sender, RoutedEventArgs e)
+    private async void OnView(object? sender, RoutedEventArgs e)
     {
         var selected = EmployeesGrid.SelectedItem as Employee;
         if (selected != null)
         {
             var window = new EmployeeDetailsWindow(selected.Id);
-            window.ShowDialog((Window)this.VisualRoot!);
+            await window.ShowDialog((Window)this.VisualRoot!);
         }
     }
     
-    private void OnEdit(object? sender, RoutedEventArgs e)
+    private async void OnEdit(object? sender, RoutedEventArgs e)
     {
         var selected = EmployeesGrid.SelectedItem as Employee;
         if (selected != null)
         {
             var window = new EmployeeFormWindow(selected.Id);
-            window.ShowDialog((Window)this.VisualRoot!);
+            await window.ShowDialog((Window)this.VisualRoot!);
             LoadData();
         }
     }
@@ -82,7 +112,9 @@ public partial class EmployeeListView : UserControl
             var result = await ShowConfirmDialog($"Уволить сотрудника {selected.FullName}?");
             if (result)
             {
-                _controller.Delete(selected.Id);
+                using var context = DatabaseService.GetContext();
+                var controller = new EmployeeController(context);
+                controller.Delete(selected.Id);
                 LoadData();
             }
         }

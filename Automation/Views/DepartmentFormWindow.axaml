@@ -2,32 +2,52 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Automation.Views.DepartmentFormWindow"
         Title="Отдел"
-        Width="500" Height="300"
-        WindowStartupLocation="CenterOwner">
+        Width="550" Height="350"
+        WindowStartupLocation="CenterOwner"
+        Background="#1E1E1E">
     
-    <StackPanel Margin="20">
-        <TextBlock Text="Название *" Margin="0,5,0,2"/>
-        <TextBox Name="TxtName" Watermark="Название отдела"/>
+    <StackPanel Margin="30">
+        <!-- Заголовок -->
+        <Border Classes="Card" Margin="0,0,0,25">
+            <TextBlock Text="🏢 Отдел" 
+                      FontSize="24" 
+                      FontWeight="Bold"
+                      Foreground="White"/>
+        </Border>
         
-        <TextBlock Text="Описание" Margin="0,10,0,2"/>
-        <TextBox Name="TxtDescription" 
-                 Watermark="Описание отдела"
-                 Height="100"
-                 AcceptsReturn="True"
-                 TextWrapping="Wrap"/>
+        <!-- Форма -->
+        <Border Classes="Card" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="Название *" Margin="0,5,0,5" Foreground="#E0E0E0"/>
+                <TextBox Name="TxtName" Watermark="Название отдела"/>
+                
+                <TextBlock Text="Описание" Margin="0,15,0,5" Foreground="#E0E0E0"/>
+                <TextBox Name="TxtDescription" 
+                         Watermark="Описание отдела"
+                         Height="100"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
         
-        <StackPanel Orientation="Horizontal" 
-                   HorizontalAlignment="Right"
-                   Margin="0,20,0,0">
+        <!-- Кнопки -->
+        <Grid ColumnDefinitions="*,*">
             <Button Name="BtnSave" 
+                   Grid.Column="0"
                    Content="💾 Сохранить"
+                   Classes="Primary"
                    Click="OnSave"
-                   Width="120"
-                   Margin="0,0,10,0"/>
+                   HorizontalAlignment="Stretch"
+                   Padding="0,12"
+                   Margin="0,0,8,0"/>
             <Button Name="BtnCancel" 
+                   Grid.Column="1"
                    Content="❌ Отмена"
+                   Classes="Secondary"
                    Click="OnCancel"
-                   Width="120"/>
-        </StackPanel>
+                   HorizontalAlignment="Stretch"
+                   Padding="0,12"
+                   Margin="8,0,0,0"/>
+        </Grid>
     </StackPanel>
 </Window>

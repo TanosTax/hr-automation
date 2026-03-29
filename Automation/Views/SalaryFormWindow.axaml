@@ -2,61 +2,89 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Automation.Views.SalaryFormWindow"
         Title="Начисление зарплаты"
-        Width="500" Height="450"
-        WindowStartupLocation="CenterOwner">
+        Width="550" Height="550"
+        WindowStartupLocation="CenterOwner"
+        Background="#1E1E1E">
     
-    <StackPanel Margin="20">
-        <TextBlock Text="Сотрудник *" Margin="0,5,0,2"/>
-        <ComboBox Name="CmbEmployee" 
-                 DisplayMemberBinding="{Binding FullName}"
-                 HorizontalAlignment="Stretch"
-                 SelectionChanged="OnEmployeeSelected"/>
+    <StackPanel Margin="30">
+        <!-- Заголовок -->
+        <Border Classes="Card" Margin="0,0,0,25">
+            <TextBlock Text="💰 Начисление зарплаты" 
+                      FontSize="24" 
+                      FontWeight="Bold"
+                      Foreground="White"/>
+        </Border>
         
-        <TextBlock Text="Год *" Margin="0,10,0,2"/>
-        <NumericUpDown Name="NumYear" Minimum="2020" Maximum="2030"/>
+        <!-- Форма -->
+        <Border Classes="Card" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="Сотрудник *" Margin="0,5,0,5" Foreground="#E0E0E0"/>
+                <ComboBox Name="CmbEmployee" 
+                         DisplayMemberBinding="{Binding FullName}"
+                         HorizontalAlignment="Stretch"
+                         SelectionChanged="OnEmployeeSelected"/>
+                
+                <Grid ColumnDefinitions="*,*" Margin="0,15,0,0">
+                    <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                        <TextBlock Text="Год *" Margin="0,0,0,5" Foreground="#E0E0E0"/>
+                        <NumericUpDown Name="NumYear" Minimum="2020" Maximum="2030" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                        <TextBlock Text="Месяц *" Margin="0,0,0,5" Foreground="#E0E0E0"/>
+                        <NumericUpDown Name="NumMonth" Minimum="1" Maximum="12" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                </Grid>
+                
+                <TextBlock Text="Базовый оклад *" Margin="0,15,0,5" Foreground="#E0E0E0"/>
+                <NumericUpDown Name="NumBaseSalary" 
+                              Minimum="0"
+                              Maximum="1000000"
+                              Increment="1000"
+                              FormatString="N0"
+                              HorizontalAlignment="Stretch"/>
+                
+                <TextBlock Text="Премия" Margin="0,15,0,5" Foreground="#E0E0E0"/>
+                <NumericUpDown Name="NumBonus" 
+                              Minimum="0"
+                              Maximum="1000000"
+                              Increment="1000"
+                              FormatString="N0"
+                              HorizontalAlignment="Stretch"/>
+                
+                <TextBlock Text="Удержания" Margin="0,15,0,5" Foreground="#E0E0E0"/>
+                <NumericUpDown Name="NumDeductions" 
+                              Minimum="0"
+                              Maximum="1000000"
+                              Increment="100"
+                              FormatString="N0"
+                              HorizontalAlignment="Stretch"/>
+                
+                <TextBlock Text="Примечания" Margin="0,15,0,5" Foreground="#E0E0E0"/>
+                <TextBox Name="TxtNotes" 
+                         Height="60"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
         
-        <TextBlock Text="Месяц *" Margin="0,10,0,2"/>
-        <NumericUpDown Name="NumMonth" Minimum="1" Maximum="12"/>
-        
-        <TextBlock Text="Базовый оклад *" Margin="0,10,0,2"/>
-        <NumericUpDown Name="NumBaseSalary" 
-                      Minimum="0"
-                      Maximum="1000000"
-                      Increment="1000"
-                      FormatString="N2"/>
-        
-        <TextBlock Text="Премия" Margin="0,10,0,2"/>
-        <NumericUpDown Name="NumBonus" 
-                      Minimum="0"
-                      Maximum="1000000"
-                      Increment="1000"
-                      FormatString="N2"/>
-        
-        <TextBlock Text="Удержания" Margin="0,10,0,2"/>
-        <NumericUpDown Name="NumDeductions" 
-                      Minimum="0"
-                      Maximum="1000000"
-                      Increment="100"
-                      FormatString="N2"/>
-        
-        <TextBlock Text="Примечания" Margin="0,10,0,2"/>
-        <TextBox Name="TxtNotes" 
-                 Height="60"
-                 AcceptsReturn="True"
-                 TextWrapping="Wrap"/>
-        
-        <StackPanel Orientation="Horizontal" 
-                   HorizontalAlignment="Right"
-                   Margin="0,20,0,0">
+        <!-- Кнопки -->
+        <Grid ColumnDefinitions="*,*">
             <Button Name="BtnSave" 
+                   Grid.Column="0"
                    Content="💾 Сохранить"
+                   Classes="Primary"
                    Click="OnSave"
-                   Width="120"
-                   Margin="0,0,10,0"/>
+                   HorizontalAlignment="Stretch"
+                   Padding="0,12"
+                   Margin="0,0,8,0"/>
             <Button Name="BtnCancel" 
+                   Grid.Column="1"
                    Content="❌ Отмена"
+                   Classes="Secondary"
                    Click="OnCancel"
-                   Width="120"/>
-        </StackPanel>
+                   HorizontalAlignment="Stretch"
+                   Padding="0,12"
+                   Margin="8,0,0,0"/>
+        </Grid>
     </StackPanel>
 </Window>

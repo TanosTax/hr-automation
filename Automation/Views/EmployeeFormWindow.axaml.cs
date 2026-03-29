@@ -86,13 +86,13 @@ public partial class EmployeeFormWindow : Window
             employee.LastName = TxtLastName.Text!;
             employee.FirstName = TxtFirstName.Text!;
             employee.MiddleName = TxtMiddleName.Text;
-            employee.BirthDate = DateBirth.SelectedDate!.Value.DateTime;
+            employee.BirthDate = DateTime.SpecifyKind(DateBirth.SelectedDate!.Value.DateTime, DateTimeKind.Utc);
             employee.PassportSeries = TxtPassportSeries.Text;
             employee.PassportNumber = TxtPassportNumber.Text;
             employee.Address = TxtAddress.Text;
             employee.Phone = TxtPhone.Text;
             employee.Email = TxtEmail.Text;
-            employee.HireDate = DateHire.SelectedDate!.Value.DateTime;
+            employee.HireDate = DateTime.SpecifyKind(DateHire.SelectedDate!.Value.DateTime, DateTimeKind.Utc);
             employee.DepartmentId = ((Department)CmbDepartment.SelectedItem!).Id;
             employee.PositionId = ((Position)CmbPosition.SelectedItem!).Id;
             

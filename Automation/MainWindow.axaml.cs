@@ -30,12 +30,16 @@ public partial class MainWindow : Window
     
     private void ShowEmployees(object? sender, RoutedEventArgs e)
     {
+        System.Diagnostics.Debug.WriteLine("ShowEmployees вызван!");
         ContentArea.Content = new EmployeeListView();
+        System.Diagnostics.Debug.WriteLine("EmployeeListView установлен в ContentArea");
     }
     
     private void ShowDepartments(object? sender, RoutedEventArgs e)
     {
+        System.Diagnostics.Debug.WriteLine("ShowDepartments вызван!");
         ContentArea.Content = new DepartmentView();
+        System.Diagnostics.Debug.WriteLine("DepartmentView установлен в ContentArea");
     }
     
     private void ShowPositions(object? sender, RoutedEventArgs e)

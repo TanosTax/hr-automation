@@ -20,6 +20,7 @@ public class SalaryController
     {
         return _context.Salaries
             .Include(s => s.Employee)
+            .ThenInclude(e => e.Department)
             .OrderByDescending(s => s.Year)
             .ThenByDescending(s => s.Month)
             .ToList();
@@ -63,7 +64,7 @@ public class SalaryController
         if (salary != null)
         {
             salary.IsPaid = true;
-            salary.PaymentDate = DateTime.Now;
+            salary.PaymentDate = DateTime.UtcNow;
             _context.SaveChanges();
         }
     }

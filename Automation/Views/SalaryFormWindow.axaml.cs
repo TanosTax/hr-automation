@@ -57,13 +57,13 @@ public partial class SalaryFormWindow : Window
                 Bonus = NumBonus.Value ?? 0,
                 Deductions = NumDeductions.Value ?? 0,
                 Notes = TxtNotes.Text,
-                PaymentDate = DateTime.Now
+                PaymentDate = DateTime.UtcNow
             };
             
             _controller.Add(salary);
             Close();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Обработка ошибок
         }

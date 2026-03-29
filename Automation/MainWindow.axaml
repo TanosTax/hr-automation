@@ -10,90 +10,93 @@
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="280"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
         <!-- Боковое меню -->
-        <Border Grid.Column="0" Background="#2C3E50" Padding="10">
+        <Border Grid.Column="0" Background="#1A1A1A" BorderBrush="#2D2D30" BorderThickness="0,0,1,0">
             <StackPanel>
-                <TextBlock Text="Кадровый учет" 
-                          FontSize="20" 
-                          FontWeight="Bold" 
-                          Foreground="White"
-                          Margin="0,0,0,20"
-                          HorizontalAlignment="Center"/>
+                <!-- Заголовок -->
+                <Border Background="#0E639C" Padding="20" Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="HR" 
+                                  FontSize="32" 
+                                  FontWeight="Bold" 
+                                  Foreground="White"
+                                  HorizontalAlignment="Center"/>
+                        <TextBlock Text="Automation" 
+                                  FontSize="14" 
+                                  Foreground="#B0E0FF"
+                                  HorizontalAlignment="Center"
+                                  Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
                 
-                <Button Name="BtnEmployees" 
-                        Content="📋 Сотрудники" 
-                        Click="ShowEmployees"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Margin="0,5"
-                        Padding="10"/>
-                
-                <Button Name="BtnDepartments" 
-                        Content="🏢 Отделы" 
-                        Click="ShowDepartments"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Margin="0,5"
-                        Padding="10"/>
-                
-                <Button Name="BtnPositions" 
-                        Content="💼 Должности" 
-                        Click="ShowPositions"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Margin="0,5"
-                        Padding="10"/>
-                
-                <Button Name="BtnVacations" 
-                        Content="🏖️ Отпуска" 
-                        Click="ShowVacations"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Margin="0,5"
-                        Padding="10"/>
-                
-                <Button Name="BtnSalaries" 
-                        Content="💰 Зарплаты" 
-                        Click="ShowSalaries"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Margin="0,5"
-                        Padding="10"/>
-                
-                <Button Name="BtnSchedule" 
-                        Content="📅 Табель" 
-                        Click="ShowSchedule"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Margin="0,5"
-                        Padding="10"/>
-                
-                <Button Name="BtnReports" 
-                        Content="📊 Отчеты" 
-                        Click="ShowReports"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Margin="0,5"
-                        Padding="10"/>
+                <!-- Меню -->
+                <StackPanel Margin="10,0">
+                    <Button Name="BtnEmployees" 
+                            Content="👥 Сотрудники" 
+                            Click="ShowEmployees"
+                            Classes="MenuButton"
+                            Margin="0,5"/>
+                    
+                    <Button Name="BtnDepartments" 
+                            Content="🏢 Отделы" 
+                            Click="ShowDepartments"
+                            Classes="MenuButton"
+                            Margin="0,5"/>
+                    
+                    <Button Name="BtnPositions" 
+                            Content="💼 Должности" 
+                            Click="ShowPositions"
+                            Classes="MenuButton"
+                            Margin="0,5"/>
+                    
+                    <Button Name="BtnVacations" 
+                            Content="🏖️ Отпуска" 
+                            Click="ShowVacations"
+                            Classes="MenuButton"
+                            Margin="0,5"/>
+                    
+                    <Button Name="BtnSalaries" 
+                            Content="💰 Зарплаты" 
+                            Click="ShowSalaries"
+                            Classes="MenuButton"
+                            Margin="0,5"/>
+                    
+                    <Button Name="BtnSchedule" 
+                            Content="📅 Табель" 
+                            Click="ShowSchedule"
+                            Classes="MenuButton"
+                            Margin="0,5"/>
+                    
+                    <Button Name="BtnReports" 
+                            Content="📊 Отчеты" 
+                            Click="ShowReports"
+                            Classes="MenuButton"
+                            Margin="0,5"/>
+                </StackPanel>
             </StackPanel>
         </Border>
         
         <!-- Основная область контента -->
-        <Border Grid.Column="1" Background="White" Padding="20">
+        <Border Grid.Column="1" Background="#252526">
             <ContentControl Name="ContentArea">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="👋" 
+                              FontSize="64" 
+                              HorizontalAlignment="Center"
+                              Margin="0,0,0,20"/>
                     <TextBlock Text="Добро пожаловать!" 
-                              FontSize="24" 
+                              FontSize="28" 
                               FontWeight="Bold"
+                              Foreground="White"
                               HorizontalAlignment="Center"
                               Margin="0,0,0,10"/>
                     <TextBlock Text="Выберите раздел в меню слева" 
                               FontSize="16" 
-                              Foreground="Gray"
+                              Foreground="#808080"
                               HorizontalAlignment="Center"/>
                 </StackPanel>
             </ContentControl>

@@ -2,41 +2,64 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="Automation.Views.PositionView">
     
-    <Grid RowDefinitions="Auto,*,Auto">
-        <TextBlock Grid.Row="0" 
-                   Text="Справочник должностей" 
-                   FontSize="24" 
-                   FontWeight="Bold"
-                   Margin="0,0,0,20"/>
+    <Grid RowDefinitions="Auto,*" Margin="25">
+        <!-- Заголовок -->
+        <Border Grid.Row="0" Margin="0,0,0,25" CornerRadius="16" BoxShadow="0 8 28 0 #00000060, 0 4 12 0 #8B5CF640" Padding="30,26">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="#8B5CF6" Offset="0"/>
+                    <GradientStop Color="#9333EA" Offset="0.5"/>
+                    <GradientStop Color="#A78BFA" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="💼 Должности" 
+                               FontSize="32" 
+                               FontWeight="Black"
+                               Foreground="White"/>
+                    <TextBlock Text="Справочник должностей и окладов" 
+                               FontSize="15" 
+                               FontWeight="Medium"
+                               Foreground="#F3E8FF"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+                <Button Name="BtnAdd" 
+                        Grid.Column="1"
+                        Content="➕ Добавить"
+                        Classes="Success"
+                        Click="OnAdd"
+                        VerticalAlignment="Center"
+                        Margin="0,0,12,0"/>
+                <Button Name="BtnEdit" 
+                        Grid.Column="2"
+                        Content="✏️ Редактировать"
+                        Classes="Secondary"
+                        Click="OnEdit"
+                        VerticalAlignment="Center"
+                        Margin="0,0,12,0"/>
+                <Button Name="BtnDelete" 
+                        Grid.Column="3"
+                        Content="🗑️ Удалить"
+                        Classes="Danger"
+                        Click="OnDelete"
+                        VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
         
+        <!-- Таблица -->
         <DataGrid Grid.Row="1" 
                   Name="PositionsGrid"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
-                  GridLinesVisibility="All">
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="300"/>
-                <DataGridTextColumn Header="Базовый оклад" Binding="{Binding BaseSalary, StringFormat='{}{0:N2} ₽'}" Width="150"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="320"/>
+                <DataGridTextColumn Header="Базовый оклад" Binding="{Binding BaseSalary, StringFormat='{}{0:N0} ₽'}" Width="160"/>
                 <DataGridTextColumn Header="Требования" Binding="{Binding Requirements}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        
-        <StackPanel Grid.Row="2" 
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Right"
-                    Margin="0,10,0,0">
-            <Button Name="BtnAdd" 
-                    Content="➕ Добавить"
-                    Click="OnAdd"
-                    Margin="0,0,10,0"/>
-            <Button Name="BtnEdit" 
-                    Content="✏️ Редактировать"
-                    Click="OnEdit"
-                    Margin="0,0,10,0"/>
-            <Button Name="BtnDelete" 
-                    Content="🗑️ Удалить"
-                    Click="OnDelete"/>
-        </StackPanel>
     </Grid>
 </UserControl>

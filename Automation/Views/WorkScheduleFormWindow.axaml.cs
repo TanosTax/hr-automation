@@ -36,7 +36,7 @@ public partial class WorkScheduleFormWindow : Window
             var schedule = new WorkSchedule
             {
                 EmployeeId = ((Employee)CmbEmployee.SelectedItem).Id,
-                Date = DatePicker.SelectedDate.Value.DateTime,
+                Date = DateTime.SpecifyKind(DatePicker.SelectedDate.Value.DateTime, DateTimeKind.Utc),
                 CheckIn = TimeCheckIn.SelectedTime,
                 CheckOut = TimeCheckOut.SelectedTime,
                 IsAbsent = ChkAbsent.IsChecked ?? false,
@@ -46,7 +46,7 @@ public partial class WorkScheduleFormWindow : Window
             _controller.Add(schedule);
             Close();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Обработка ошибок
         }

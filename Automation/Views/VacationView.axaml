@@ -2,55 +2,84 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="Automation.Views.VacationView">
     
-    <Grid RowDefinitions="Auto,Auto,*,Auto">
-        <TextBlock Grid.Row="0" 
-                   Text="Учет отпусков и больничных" 
-                   FontSize="24" 
-                   FontWeight="Bold"
-                   Margin="0,0,0,20"/>
+    <Grid RowDefinitions="Auto,Auto,*" Margin="25">
+        <!-- Заголовок -->
+        <Border Grid.Row="0" Margin="0,0,0,25" CornerRadius="16" BoxShadow="0 8 28 0 #00000060, 0 4 12 0 #F7630C40" Padding="30,26">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="#F7630C" Offset="0"/>
+                    <GradientStop Color="#FF8C42" Offset="0.5"/>
+                    <GradientStop Color="#FFA060" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto">
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="🏖️ Отпуска" 
+                               FontSize="32" 
+                               FontWeight="Black"
+                               Foreground="White"/>
+                    <TextBlock Text="Учет отпусков и больничных" 
+                               FontSize="15" 
+                               FontWeight="Medium"
+                               Foreground="#FFE8D8"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+                <Button Name="BtnAll" 
+                        Grid.Column="1"
+                        Content="Все"
+                        Classes="Secondary"
+                        Click="OnShowAll"
+                        VerticalAlignment="Center"
+                        Margin="0,0,12,0"/>
+                <Button Name="BtnPending" 
+                        Grid.Column="2"
+                        Content="На согласовании"
+                        Classes="Secondary"
+                        Click="OnShowPending"
+                        VerticalAlignment="Center"
+                        Margin="0,0,12,0"/>
+                <Button Name="BtnAdd" 
+                        Grid.Column="3"
+                        Content="➕ Добавить"
+                        Classes="Success"
+                        Click="OnAdd"
+                        VerticalAlignment="Center"
+                        Margin="0,0,12,0"/>
+            </Grid>
+        </Border>
         
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
-            <Button Name="BtnAll" 
-                    Content="Все"
-                    Click="OnShowAll"
-                    Margin="0,0,10,0"/>
-            <Button Name="BtnPending" 
-                    Content="На согласовании"
-                    Click="OnShowPending"
-                    Margin="0,0,10,0"/>
-        </StackPanel>
+        <!-- Кнопки действий -->
+        <Border Grid.Row="1" Classes="Card" Margin="0,0,0,25">
+            <StackPanel Orientation="Horizontal">
+                <Button Name="BtnApprove" 
+                        Content="✅ Одобрить"
+                        Classes="Primary"
+                        Click="OnApprove"
+                        Margin="0,0,12,0"/>
+                <Button Name="BtnReject" 
+                        Content="❌ Отклонить"
+                        Classes="Danger"
+                        Click="OnReject"/>
+            </StackPanel>
+        </Border>
         
+        <!-- Таблица -->
         <DataGrid Grid.Row="2" 
                   Name="VacationsGrid"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
-                  GridLinesVisibility="All">
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="200"/>
-                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="120"/>
-                <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="100"/>
-                <DataGridTextColumn Header="Конец" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="100"/>
-                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="210"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="130"/>
+                <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="110"/>
+                <DataGridTextColumn Header="Конец" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="110"/>
+                <DataGridTextColumn Header="Дней" Binding="{Binding DaysCount}" Width="90"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="130"/>
                 <DataGridTextColumn Header="Причина" Binding="{Binding Reason}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        
-        <StackPanel Grid.Row="3" 
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Right"
-                    Margin="0,10,0,0">
-            <Button Name="BtnAdd" 
-                    Content="➕ Добавить"
-                    Click="OnAdd"
-                    Margin="0,0,10,0"/>
-            <Button Name="BtnApprove" 
-                    Content="✅ Одобрить"
-                    Click="OnApprove"
-                    Margin="0,0,10,0"/>
-            <Button Name="BtnReject" 
-                    Content="❌ Отклонить"
-                    Click="OnReject"/>
-        </StackPanel>
     </Grid>
 </UserControl>

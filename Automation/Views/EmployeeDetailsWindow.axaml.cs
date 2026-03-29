@@ -24,19 +24,17 @@ public partial class EmployeeDetailsWindow : Window
         if (employee != null)
         {
             TxtFullName.Text = employee.FullName;
-            TxtBirthDate.Text = employee.BirthDate.ToString("dd.MM.yyyy");
-            TxtPassport.Text = $"{employee.PassportSeries} {employee.PassportNumber}";
-            TxtAddress.Text = employee.Address ?? "-";
-            TxtPhone.Text = employee.Phone ?? "-";
-            TxtEmail.Text = employee.Email ?? "-";
-            TxtDepartment.Text = employee.Department.Name;
             TxtPosition.Text = employee.Position.Name;
+            TxtEmail.Text = employee.Email ?? "-";
+            TxtPhone.Text = employee.Phone ?? "-";
+            TxtDepartment.Text = employee.Department.Name;
+            TxtBirthDate.Text = employee.BirthDate.ToString("dd.MM.yyyy");
             TxtHireDate.Text = employee.HireDate.ToString("dd.MM.yyyy");
-            TxtStatus.Text = employee.IsActive ? "Работает" : $"Уволен ({employee.FireDate:dd.MM.yyyy})";
+            TxtAddress.Text = employee.Address ?? "-";
             
-            DocumentsGrid.ItemsSource = employee.Documents;
             ContractsGrid.ItemsSource = employee.Contracts;
             VacationsGrid.ItemsSource = employee.Vacations;
+            DocumentsGrid.ItemsSource = employee.Documents;
         }
     }
     

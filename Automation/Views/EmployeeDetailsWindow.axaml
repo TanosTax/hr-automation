@@ -2,111 +2,139 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Automation.Views.EmployeeDetailsWindow"
         Title="Карточка сотрудника"
-        Width="800" Height="600"
+        Width="800" Height="700"
         WindowStartupLocation="CenterOwner">
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Color="#1E1E1E" Offset="0"/>
+            <GradientStop Color="#1A1A1A" Offset="0.5"/>
+            <GradientStop Color="#0F0F0F" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
     
     <ScrollViewer>
-        <StackPanel Margin="20">
-            <TextBlock Name="TxtFullName" 
-                      FontSize="24" 
-                      FontWeight="Bold"
-                      Margin="0,0,0,20"/>
+        <StackPanel Margin="35">
+            <!-- Заголовок с именем -->
+            <Border Classes="Card" Margin="0,0,0,28" BoxShadow="0 8 28 0 #00000070, 0 4 12 0 #0E639C50" Padding="10">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="0.5"/>
+                        <GradientStop Color="#1A8FDD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock Name="TxtFullName" 
+                              FontSize="32" 
+                              FontWeight="Black"
+                              Foreground="White"
+                              HorizontalAlignment="Center"/>
+                    <TextBlock Name="TxtPosition" 
+                              FontSize="17" 
+                              FontWeight="Medium"
+                              Foreground="#D0EFFF"
+                              HorizontalAlignment="Center"
+                              Margin="0,8,0,0"/>
+                </StackPanel>
+            </Border>
             
-            <TabControl>
-                <!-- Основная информация -->
-                <TabItem Header="Основная информация">
-                    <ScrollViewer>
-                        <StackPanel Margin="10">
-                            <Grid ColumnDefinitions="150,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата рождения:" Margin="0,5"/>
-                                <TextBlock Name="TxtBirthDate" Grid.Row="0" Grid.Column="1" Margin="0,5"/>
-                                
-                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Паспорт:" Margin="0,5"/>
-                                <TextBlock Name="TxtPassport" Grid.Row="1" Grid.Column="1" Margin="0,5"/>
-                                
-                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Адрес:" Margin="0,5"/>
-                                <TextBlock Name="TxtAddress" Grid.Row="2" Grid.Column="1" Margin="0,5" TextWrapping="Wrap"/>
-                                
-                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Телефон:" Margin="0,5"/>
-                                <TextBlock Name="TxtPhone" Grid.Row="3" Grid.Column="1" Margin="0,5"/>
-                                
-                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Email:" Margin="0,5"/>
-                                <TextBlock Name="TxtEmail" Grid.Row="4" Grid.Column="1" Margin="0,5"/>
-                                
-                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Отдел:" Margin="0,5"/>
-                                <TextBlock Name="TxtDepartment" Grid.Row="5" Grid.Column="1" Margin="0,5"/>
-                                
-                                <TextBlock Grid.Row="6" Grid.Column="0" Text="Должность:" Margin="0,5"/>
-                                <TextBlock Name="TxtPosition" Grid.Row="6" Grid.Column="1" Margin="0,5"/>
-                                
-                                <TextBlock Grid.Row="7" Grid.Column="0" Text="Дата приема:" Margin="0,5"/>
-                                <TextBlock Name="TxtHireDate" Grid.Row="7" Grid.Column="1" Margin="0,5"/>
-                                
-                                <TextBlock Grid.Row="8" Grid.Column="0" Text="Статус:" Margin="0,5"/>
-                                <TextBlock Name="TxtStatus" Grid.Row="8" Grid.Column="1" Margin="0,5"/>
-                            </Grid>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
-                
-                <!-- Документы -->
-                <TabItem Header="Документы">
-                    <Grid RowDefinitions="*,Auto">
-                        <DataGrid Name="DocumentsGrid" 
-                                 Grid.Row="0"
-                                 AutoGenerateColumns="False"
-                                 IsReadOnly="True"
-                                 Margin="10">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="150"/>
-                                <DataGridTextColumn Header="Серия" Binding="{Binding Series}" Width="100"/>
-                                <DataGridTextColumn Header="Номер" Binding="{Binding Number}" Width="150"/>
-                                <DataGridTextColumn Header="Дата выдачи" Binding="{Binding IssueDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
-                                <DataGridTextColumn Header="Кем выдан" Binding="{Binding IssuedBy}" Width="*"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Grid>
-                </TabItem>
-                
-                <!-- Контракты -->
-                <TabItem Header="Трудовые договоры">
-                    <DataGrid Name="ContractsGrid" 
+            <!-- Основная информация -->
+            <Border Classes="Card" Margin="0,0,0,22">
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="📧 Email:" Foreground="#A0A0A0" FontWeight="Medium" Margin="0,0,12,12"/>
+                    <TextBlock Name="TxtEmail" Grid.Row="0" Grid.Column="1" Foreground="White" FontWeight="Medium" Margin="12,0,0,12"/>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="📱 Телефон:" Foreground="#A0A0A0" FontWeight="Medium" Margin="0,0,12,12"/>
+                    <TextBlock Name="TxtPhone" Grid.Row="1" Grid.Column="1" Foreground="White" FontWeight="Medium" Margin="12,0,0,12"/>
+                    
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="🏢 Отдел:" Foreground="#A0A0A0" FontWeight="Medium" Margin="0,0,12,12"/>
+                    <TextBlock Name="TxtDepartment" Grid.Row="2" Grid.Column="1" Foreground="White" FontWeight="Medium" Margin="12,0,0,12"/>
+                    
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="🎂 Дата рождения:" Foreground="#A0A0A0" FontWeight="Medium" Margin="0,0,12,12"/>
+                    <TextBlock Name="TxtBirthDate" Grid.Row="3" Grid.Column="1" Foreground="White" FontWeight="Medium" Margin="12,0,0,12"/>
+                    
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="📅 Дата приема:" Foreground="#A0A0A0" FontWeight="Medium" Margin="0,0,12,12"/>
+                    <TextBlock Name="TxtHireDate" Grid.Row="4" Grid.Column="1" Foreground="White" FontWeight="Medium" Margin="12,0,0,12"/>
+                    
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="📍 Адрес:" Foreground="#A0A0A0" FontWeight="Medium" Margin="0,0,12,0"/>
+                    <TextBlock Name="TxtAddress" Grid.Row="5" Grid.Column="1" Foreground="White" FontWeight="Medium" TextWrapping="Wrap" Margin="12,0,0,0"/>
+                </Grid>
+            </Border>
+            
+            <!-- Контракты -->
+            <Border Classes="Card" Margin="0,0,0,22">
+                <StackPanel>
+                    <TextBlock Text="📄 Контракты" 
+                              FontSize="20" 
+                              FontWeight="Bold"
+                              Foreground="#1A8FDD"
+                              Margin="0,0,0,18"/>
+                    <DataGrid Name="ContractsGrid"
                              AutoGenerateColumns="False"
                              IsReadOnly="True"
-                             Margin="10">
+                             MaxHeight="160">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding ContractNumber}" Width="120"/>
-                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="150"/>
-                            <DataGridTextColumn Header="Дата подписания" Binding="{Binding SignDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="150"/>
-                            <DataGridTextColumn Header="Дата окончания" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="150"/>
-                            <DataGridTextColumn Header="Оклад" Binding="{Binding Salary, StringFormat='{}{0:N2}'}" Width="120"/>
-                            <DataGridCheckBoxColumn Header="Активен" Binding="{Binding IsActive}" Width="*"/>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding ContractNumber}" Width="130"/>
+                            <DataGridTextColumn Header="Дата подписания" Binding="{Binding SignDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="160"/>
+                            <DataGridTextColumn Header="Окончание" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="160"/>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                </TabItem>
-                
-                <!-- Отпуска -->
-                <TabItem Header="Отпуска">
-                    <DataGrid Name="VacationsGrid" 
+                </StackPanel>
+            </Border>
+            
+            <!-- Отпуска -->
+            <Border Classes="Card" Margin="0,0,0,22">
+                <StackPanel>
+                    <TextBlock Text="🏖️ Отпуска" 
+                              FontSize="20" 
+                              FontWeight="Bold"
+                              Foreground="#1A8FDD"
+                              Margin="0,0,0,18"/>
+                    <DataGrid Name="VacationsGrid"
                              AutoGenerateColumns="False"
                              IsReadOnly="True"
-                             Margin="10">
+                             MaxHeight="160">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="120"/>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="130"/>
                             <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
                             <DataGridTextColumn Header="Конец" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
-                            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
-                            <DataGridTextColumn Header="Причина" Binding="{Binding Reason}" Width="*"/>
+                            <DataGridTextColumn Header="Дней" Binding="{Binding DaysCount}" Width="80"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                </TabItem>
-            </TabControl>
+                </StackPanel>
+            </Border>
             
-            <Button Content="Закрыть" 
+            <!-- Документы -->
+            <Border Classes="Card" Margin="0,0,0,22">
+                <StackPanel>
+                    <TextBlock Text="📋 Документы" 
+                              FontSize="20" 
+                              FontWeight="Bold"
+                              Foreground="#1A8FDD"
+                              Margin="0,0,0,18"/>
+                    <DataGrid Name="DocumentsGrid"
+                             AutoGenerateColumns="False"
+                             IsReadOnly="True"
+                             MaxHeight="160">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="170"/>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding Number}" Width="140"/>
+                            <DataGridTextColumn Header="Дата выдачи" Binding="{Binding IssueDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="140"/>
+                            <DataGridTextColumn Header="Кем выдан" Binding="{Binding IssuedBy}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+            
+            <!-- Кнопка закрыть -->
+            <Button Name="BtnClose" 
+                   Content="✖️ Закрыть"
+                   Classes="Secondary"
                    Click="OnClose"
-                   Width="120"
-                   HorizontalAlignment="Right"
-                   Margin="0,20,0,0"/>
+                   HorizontalAlignment="Stretch"
+                   Padding="0,16"/>
         </StackPanel>
     </ScrollViewer>
 </Window>

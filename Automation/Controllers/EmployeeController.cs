@@ -30,6 +30,7 @@ public class EmployeeController
         return _context.Employees
             .Include(e => e.Department)
             .Include(e => e.Position)
+            .AsNoTracking()
             .Where(e => e.IsActive)
             .OrderBy(e => e.LastName)
             .ToList();
@@ -77,7 +78,7 @@ public class EmployeeController
         if (employee != null)
         {
             employee.IsActive = false;
-            employee.FireDate = DateTime.Now;
+            employee.FireDate = DateTime.UtcNow;
             _context.SaveChanges();
         }
     }

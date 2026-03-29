@@ -45,4 +45,7 @@ public class Vacation
     
     [MaxLength(500)]
     public string? Comment { get; set; }
+    
+    [NotMapped]
+    public int DaysCount => (EndDate - StartDate).Days + 1;
 }

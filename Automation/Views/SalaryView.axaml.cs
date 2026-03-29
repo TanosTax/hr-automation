@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Automation.Controllers;
@@ -9,23 +10,33 @@ namespace Automation.Views;
 
 public partial class SalaryView : UserControl
 {
-    private readonly SalaryController _controller;
+    private ObservableCollection<Salary> _salaries = new();
     
     public SalaryView()
     {
         InitializeComponent();
-        _controller = new SalaryController(DatabaseService.GetContext());
+        
+        SalariesGrid.ItemsSource = _salaries;
         
         NumYear.Value = DateTime.Now.Year;
         NumMonth.Value = DateTime.Now.Month;
         
-        LoadData();
+        this.Loaded += (s, e) =>
+        {
+            LoadData();
+        };
     }
     
     private void LoadData()
     {
-        var salaries = _controller.GetAll();
-        SalariesGrid.ItemsSource = salaries;
+        using var context = DatabaseService.GetContext();
+        var controller = new SalaryController(context);
+        var salaries = controller.GetAll();
+        _salaries.Clear();
+        foreach (var sal in salaries)
+        {
+            _salaries.Add(sal);
+        }
     }
     
     private void OnFilter(object? sender, RoutedEventArgs e)
@@ -33,14 +44,20 @@ public partial class SalaryView : UserControl
         var year = (int)(NumYear.Value ?? DateTime.Now.Year);
         var month = (int)(NumMonth.Value ?? DateTime.Now.Month);
         
-        var salaries = _controller.GetByPeriod(year, month);
-        SalariesGrid.ItemsSource = salaries;
+        using var context = DatabaseService.GetContext();
+        var controller = new SalaryController(context);
+        var salaries = controller.GetByPeriod(year, month);
+        _salaries.Clear();
+        foreach (var sal in salaries)
+        {
+            _salaries.Add(sal);
+        }
     }
     
-    private void OnAdd(object? sender, RoutedEventArgs e)
+    private async void OnAdd(object? sender, RoutedEventArgs e)
     {
         var window = new SalaryFormWindow();
-        window.ShowDialog((Window)this.VisualRoot!);
+        await window.ShowDialog((Window)this.VisualRoot!);
         LoadData();
     }
     
@@ -49,7 +66,9 @@ public partial class SalaryView : UserControl
         var selected = SalariesGrid.SelectedItem as Salary;
         if (selected != null && !selected.IsPaid)
         {
-            _controller.MarkAsPaid(selected.Id);
+            using var context = DatabaseService.GetContext();
+            var controller = new SalaryController(context);
+            controller.MarkAsPaid(selected.Id);
             LoadData();
         }
     }

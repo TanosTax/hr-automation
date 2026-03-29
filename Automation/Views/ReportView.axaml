@@ -2,59 +2,205 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="Automation.Views.ReportView">
     
-    <Grid RowDefinitions="Auto,Auto,*">
-        <TextBlock Grid.Row="0" 
-                   Text="Отчеты" 
-                   FontSize="24" 
-                   FontWeight="Bold"
-                   Margin="0,0,0,20"/>
-        
-        <StackPanel Grid.Row="1" Margin="0,0,0,20">
-            <TextBlock Text="Выберите тип отчета:" FontWeight="Bold" Margin="0,0,0,10"/>
-            
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Button Name="BtnEmployeeReport" 
-                        Content="📋 Список сотрудников"
-                        Click="OnEmployeeReport"
-                        Width="200"
-                        Margin="0,0,10,0"/>
-                <Button Name="BtnDepartmentReport" 
-                        Content="🏢 По отделам"
-                        Click="OnDepartmentReport"
-                        Width="200"
-                        Margin="0,0,10,0"/>
-                <Button Name="BtnSalaryReport" 
-                        Content="💰 Зарплатная ведомость"
-                        Click="OnSalaryReport"
-                        Width="200"/>
+    <Grid RowDefinitions="Auto,Auto,*" Margin="25">
+        <!-- Заголовок -->
+        <Border Grid.Row="0" Margin="0,0,0,25" CornerRadius="16" BoxShadow="0 8 28 0 #00000060, 0 4 12 0 #7C3AED40" Padding="30,26">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="#7C3AED" Offset="0"/>
+                    <GradientStop Color="#9333EA" Offset="0.5"/>
+                    <GradientStop Color="#A78BFA" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <StackPanel>
+                <TextBlock Text="📊 Отчеты и аналитика" 
+                           FontSize="32" 
+                           FontWeight="Black"
+                           Foreground="White"/>
+                <TextBlock Text="Статистика и отчеты по персоналу" 
+                           FontSize="15" 
+                           FontWeight="Medium"
+                           Foreground="#F3E8FF"
+                           Margin="0,8,0,0"/>
             </StackPanel>
-            
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Button Name="BtnVacationReport" 
-                        Content="🏖️ Отпуска"
-                        Click="OnVacationReport"
-                        Width="200"
-                        Margin="0,0,10,0"/>
-                <Button Name="BtnBirthdayReport" 
-                        Content="🎂 Дни рождения"
-                        Click="OnBirthdayReport"
-                        Width="200"
-                        Margin="0,0,10,0"/>
-                <Button Name="BtnExport" 
-                        Content="📄 Экспорт в CSV"
-                        Click="OnExport"
-                        Width="200"/>
-            </StackPanel>
-        </StackPanel>
+        </Border>
         
+        <!-- Статистические карточки -->
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*" Margin="0,0,0,25">
+            <Border Grid.Column="0" Classes="StatCard" Margin="0,0,12,0" Cursor="Hand">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="0.5"/>
+                        <GradientStop Color="#1A8FDD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock Text="👥" FontSize="42" HorizontalAlignment="Center" Margin="0,0,0,14"/>
+                    <TextBlock Name="TxtTotalEmployees" 
+                              Text="0" 
+                              FontSize="48" 
+                              FontWeight="Black"
+                              Foreground="White"
+                              HorizontalAlignment="Center"/>
+                    <TextBlock Text="Всего сотрудников" 
+                              FontSize="14" 
+                              FontWeight="Medium"
+                              Foreground="#E0F0FF"
+                              HorizontalAlignment="Center"
+                              Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+            
+            <Border Grid.Column="1" Classes="StatCard" Margin="6,0,6,0" Cursor="Hand">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#107C10" Offset="0"/>
+                        <GradientStop Color="#0F8B0F" Offset="0.5"/>
+                        <GradientStop Color="#10A010" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock Text="🏢" FontSize="42" HorizontalAlignment="Center" Margin="0,0,0,14"/>
+                    <TextBlock Name="TxtTotalDepartments" 
+                              Text="0" 
+                              FontSize="48" 
+                              FontWeight="Black"
+                              Foreground="White"
+                              HorizontalAlignment="Center"/>
+                    <TextBlock Text="Отделов" 
+                              FontSize="14" 
+                              FontWeight="Medium"
+                              Foreground="#E0FFE0"
+                              HorizontalAlignment="Center"
+                              Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+            
+            <Border Grid.Column="2" Classes="StatCard" Margin="6,0,6,0" Cursor="Hand">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#F7630C" Offset="0"/>
+                        <GradientStop Color="#FF8C42" Offset="0.5"/>
+                        <GradientStop Color="#FFA060" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock Text="🏖️" FontSize="42" HorizontalAlignment="Center" Margin="0,0,0,14"/>
+                    <TextBlock Name="TxtPendingVacations" 
+                              Text="0" 
+                              FontSize="48" 
+                              FontWeight="Black"
+                              Foreground="White"
+                              HorizontalAlignment="Center"/>
+                    <TextBlock Text="На согласовании" 
+                              FontSize="14" 
+                              FontWeight="Medium"
+                              Foreground="#FFE8D8"
+                              HorizontalAlignment="Center"
+                              Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+            
+            <Border Grid.Column="3" Classes="StatCard" Margin="12,0,0,0" Cursor="Hand">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#C42B1C" Offset="0"/>
+                        <GradientStop Color="#E81123" Offset="0.5"/>
+                        <GradientStop Color="#FF2D3D" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock Text="💰" FontSize="42" HorizontalAlignment="Center" Margin="0,0,0,14"/>
+                    <TextBlock Name="TxtUnpaidSalaries" 
+                              Text="0" 
+                              FontSize="48" 
+                              FontWeight="Black"
+                              Foreground="White"
+                              HorizontalAlignment="Center"/>
+                    <TextBlock Text="Невыплачено" 
+                              FontSize="14" 
+                              FontWeight="Medium"
+                              Foreground="#FFE0E0"
+                              HorizontalAlignment="Center"
+                              Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+        
+        <!-- Отчеты -->
         <ScrollViewer Grid.Row="2">
-            <StackPanel Name="ReportContent">
-                <TextBlock Text="Выберите тип отчета для просмотра" 
-                          FontSize="16" 
-                          Foreground="Gray"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center"
-                          Margin="0,50,0,0"/>
+            <StackPanel>
+                <!-- Отчет по отделам -->
+                <Border Classes="Card" Margin="0,0,0,25">
+                    <StackPanel>
+                        <TextBlock Text="📈 Распределение по отделам" 
+                                  FontSize="22" 
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  Margin="0,0,0,18"/>
+                        <DataGrid Name="DepartmentStatsGrid"
+                                 AutoGenerateColumns="False"
+                                 IsReadOnly="True"
+                                 CanUserResizeColumns="True"
+                                 MaxHeight="320">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Отдел" Binding="{Binding DepartmentName}" Width="260"/>
+                                <DataGridTextColumn Header="Сотрудников" Binding="{Binding EmployeeCount}" Width="130"/>
+                                <DataGridTextColumn Header="Средняя зарплата" Binding="{Binding AverageSalary, StringFormat='{}{0:N0} ₽'}" Width="160"/>
+                                <DataGridTextColumn Header="Фонд оплаты труда" Binding="{Binding TotalSalary, StringFormat='{}{0:N0} ₽'}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Ближайшие дни рождения -->
+                <Border Classes="Card" Margin="0,0,0,25">
+                    <StackPanel>
+                        <TextBlock Text="🎂 Ближайшие дни рождения" 
+                                  FontSize="22" 
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  Margin="0,0,0,18"/>
+                        <DataGrid Name="BirthdaysGrid"
+                                 AutoGenerateColumns="False"
+                                 IsReadOnly="True"
+                                 CanUserResizeColumns="True"
+                                 MaxHeight="280">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Сотрудник" Binding="{Binding FullName}" Width="260"/>
+                                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="160"/>
+                                <DataGridTextColumn Header="Возраст" Binding="{Binding Age}" Width="110"/>
+                                <DataGridTextColumn Header="Отдел" Binding="{Binding Department.Name}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Активные отпуска -->
+                <Border Classes="Card">
+                    <StackPanel>
+                        <TextBlock Text="🏖️ Текущие отпуска" 
+                                  FontSize="22" 
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  Margin="0,0,0,18"/>
+                        <DataGrid Name="ActiveVacationsGrid"
+                                 AutoGenerateColumns="False"
+                                 IsReadOnly="True"
+                                 CanUserResizeColumns="True"
+                                 MaxHeight="280">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="210"/>
+                                <DataGridTextColumn Header="Отдел" Binding="{Binding Employee.Department.Name}" Width="160"/>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="130"/>
+                                <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
+                                <DataGridTextColumn Header="Конец" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
+                                <DataGridTextColumn Header="Дней" Binding="{Binding DaysCount}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </ScrollViewer>
     </Grid>

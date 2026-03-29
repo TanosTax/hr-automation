@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Automation.Controllers;
@@ -9,19 +10,30 @@ namespace Automation.Views;
 
 public partial class VacationView : UserControl
 {
-    private readonly VacationController _controller;
+    private ObservableCollection<Vacation> _vacations = new();
     
     public VacationView()
     {
         InitializeComponent();
-        _controller = new VacationController(DatabaseService.GetContext());
-        LoadData();
+        
+        VacationsGrid.ItemsSource = _vacations;
+        
+        this.Loaded += (s, e) =>
+        {
+            LoadData();
+        };
     }
     
     private void LoadData()
     {
-        var vacations = _controller.GetAll();
-        VacationsGrid.ItemsSource = vacations;
+        using var context = DatabaseService.GetContext();
+        var controller = new VacationController(context);
+        var vacations = controller.GetAll();
+        _vacations.Clear();
+        foreach (var vac in vacations)
+        {
+            _vacations.Add(vac);
+        }
     }
     
     private void OnShowAll(object? sender, RoutedEventArgs e)
@@ -31,14 +43,20 @@ public partial class VacationView : UserControl
     
     private void OnShowPending(object? sender, RoutedEventArgs e)
     {
-        var pending = _controller.GetPending();
-        VacationsGrid.ItemsSource = pending;
+        using var context = DatabaseService.GetContext();
+        var controller = new VacationController(context);
+        var pending = controller.GetPending();
+        _vacations.Clear();
+        foreach (var vac in pending)
+        {
+            _vacations.Add(vac);
+        }
     }
     
-    private void OnAdd(object? sender, RoutedEventArgs e)
+    private async void OnAdd(object? sender, RoutedEventArgs e)
     {
         var window = new VacationFormWindow();
-        window.ShowDialog((Window)this.VisualRoot!);
+        await window.ShowDialog((Window)this.VisualRoot!);
         LoadData();
     }
     
@@ -47,7 +65,9 @@ public partial class VacationView : UserControl
         var selected = VacationsGrid.SelectedItem as Vacation;
         if (selected != null && selected.Status == VacationStatus.Pending)
         {
-            _controller.Approve(selected.Id);
+            using var context = DatabaseService.GetContext();
+            var controller = new VacationController(context);
+            controller.Approve(selected.Id);
             LoadData();
         }
     }
@@ -57,7 +77,9 @@ public partial class VacationView : UserControl
         var selected = VacationsGrid.SelectedItem as Vacation;
         if (selected != null && selected.Status == VacationStatus.Pending)
         {
-            _controller.Reject(selected.Id, "Отклонено");
+            using var context = DatabaseService.GetContext();
+            var controller = new VacationController(context);
+            controller.Reject(selected.Id, "Отклонено");
             LoadData();
         }
     }

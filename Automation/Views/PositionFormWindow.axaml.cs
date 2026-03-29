@@ -63,7 +63,7 @@ public partial class PositionFormWindow : Window
             
             Close();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Обработка ошибок
         }

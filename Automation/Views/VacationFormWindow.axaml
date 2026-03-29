@@ -2,43 +2,68 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Automation.Views.VacationFormWindow"
         Title="Новый отпуск"
-        Width="500" Height="450"
-        WindowStartupLocation="CenterOwner">
+        Width="550" Height="500"
+        WindowStartupLocation="CenterOwner"
+        Background="#1E1E1E">
     
-    <StackPanel Margin="20">
-        <TextBlock Text="Сотрудник *" Margin="0,5,0,2"/>
-        <ComboBox Name="CmbEmployee" 
-                 DisplayMemberBinding="{Binding FullName}"
-                 HorizontalAlignment="Stretch"/>
+    <StackPanel Margin="30">
+        <!-- Заголовок -->
+        <Border Classes="Card" Margin="0,0,0,25">
+            <TextBlock Text="🏖️ Заявка на отпуск" 
+                      FontSize="24" 
+                      FontWeight="Bold"
+                      Foreground="White"/>
+        </Border>
         
-        <TextBlock Text="Тип *" Margin="0,10,0,2"/>
-        <ComboBox Name="CmbType" HorizontalAlignment="Stretch"/>
+        <!-- Форма -->
+        <Border Classes="Card" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="Сотрудник *" Margin="0,5,0,5" Foreground="#E0E0E0"/>
+                <ComboBox Name="CmbEmployee" 
+                         DisplayMemberBinding="{Binding FullName}"
+                         HorizontalAlignment="Stretch"/>
+                
+                <TextBlock Text="Тип *" Margin="0,15,0,5" Foreground="#E0E0E0"/>
+                <ComboBox Name="CmbType" HorizontalAlignment="Stretch"/>
+                
+                <Grid ColumnDefinitions="*,*" Margin="0,15,0,0">
+                    <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                        <TextBlock Text="Дата начала *" Margin="0,0,0,5" Foreground="#E0E0E0"/>
+                        <DatePicker Name="DateStart" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                        <TextBlock Text="Дата окончания *" Margin="0,0,0,5" Foreground="#E0E0E0"/>
+                        <DatePicker Name="DateEnd" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                </Grid>
+                
+                <TextBlock Text="Причина" Margin="0,15,0,5" Foreground="#E0E0E0"/>
+                <TextBox Name="TxtReason" 
+                         Height="80"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         Watermark="Причина отпуска/больничного"/>
+            </StackPanel>
+        </Border>
         
-        <TextBlock Text="Дата начала *" Margin="0,10,0,2"/>
-        <DatePicker Name="DateStart"/>
-        
-        <TextBlock Text="Дата окончания *" Margin="0,10,0,2"/>
-        <DatePicker Name="DateEnd"/>
-        
-        <TextBlock Text="Причина" Margin="0,10,0,2"/>
-        <TextBox Name="TxtReason" 
-                 Height="80"
-                 AcceptsReturn="True"
-                 TextWrapping="Wrap"
-                 Watermark="Причина отпуска/больничного"/>
-        
-        <StackPanel Orientation="Horizontal" 
-                   HorizontalAlignment="Right"
-                   Margin="0,20,0,0">
+        <!-- Кнопки -->
+        <Grid ColumnDefinitions="*,*">
             <Button Name="BtnSave" 
+                   Grid.Column="0"
                    Content="💾 Сохранить"
+                   Classes="Primary"
                    Click="OnSave"
-                   Width="120"
-                   Margin="0,0,10,0"/>
+                   HorizontalAlignment="Stretch"
+                   Padding="0,12"
+                   Margin="0,0,8,0"/>
             <Button Name="BtnCancel" 
+                   Grid.Column="1"
                    Content="❌ Отмена"
+                   Classes="Secondary"
                    Click="OnCancel"
-                   Width="120"/>
-        </StackPanel>
+                   HorizontalAlignment="Stretch"
+                   Padding="0,12"
+                   Margin="8,0,0,0"/>
+        </Grid>
     </StackPanel>
 </Window>

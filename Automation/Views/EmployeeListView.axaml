@@ -2,66 +2,83 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="Automation.Views.EmployeeListView">
     
-    <Grid RowDefinitions="Auto,Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,*" Margin="25">
         <!-- Заголовок -->
-        <TextBlock Grid.Row="0" 
-                   Text="Список сотрудников" 
-                   FontSize="24" 
-                   FontWeight="Bold"
-                   Margin="0,0,0,20"/>
+        <Border Grid.Row="0" Margin="0,0,0,25" CornerRadius="16" BoxShadow="0 8 28 0 #00000060, 0 4 12 0 #0E639C40" Padding="30,26">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="#0E639C" Offset="0"/>
+                    <GradientStop Color="#1177BB" Offset="0.5"/>
+                    <GradientStop Color="#1A8FDD" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="👥 Сотрудники" 
+                               FontSize="32" 
+                               FontWeight="Black"
+                               Foreground="White"/>
+                    <TextBlock Text="Управление персоналом компании" 
+                               FontSize="15" 
+                               FontWeight="Medium"
+                               Foreground="#D0EFFF"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+                <Button Name="BtnAdd" 
+                        Grid.Column="1"
+                        Content="➕ Добавить сотрудника"
+                        Classes="Success"
+                        Click="OnAdd"
+                        VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
         
-        <!-- Панель поиска и фильтров -->
-        <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" Margin="0,0,0,10">
-            <TextBox Name="SearchBox" 
-                     Grid.Column="0"
-                     Watermark="Поиск по ФИО или email..."
-                     Margin="0,0,10,0"/>
-            <Button Name="BtnSearch" 
-                    Grid.Column="1"
-                    Content="🔍 Найти"
-                    Click="OnSearch"
-                    Margin="0,0,10,0"/>
-            <Button Name="BtnAdd" 
-                    Grid.Column="2"
-                    Content="➕ Добавить"
-                    Click="OnAdd"/>
-        </Grid>
+        <!-- Панель поиска -->
+        <Border Grid.Row="1" Classes="Card" Margin="0,0,0,25">
+            <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                <TextBox Name="SearchBox" 
+                         Grid.Column="0"
+                         Watermark="🔍 Поиск по ФИО или email..."
+                         TextChanged="OnSearchTextChanged"
+                         Margin="0,0,15,0"/>
+                <Button Name="BtnView" 
+                        Grid.Column="1"
+                        Content="👁️ Просмотр"
+                        Classes="Secondary"
+                        Click="OnView"
+                        Margin="0,0,12,0"/>
+                <Button Name="BtnEdit" 
+                        Grid.Column="2"
+                        Content="✏️ Редактировать"
+                        Classes="Secondary"
+                        Click="OnEdit"
+                        Margin="0,0,12,0"/>
+                <Button Name="BtnDelete" 
+                        Grid.Column="3"
+                        Content="🗑️ Уволить"
+                        Classes="Danger"
+                        Click="OnDelete"/>
+            </Grid>
+        </Border>
         
         <!-- Таблица сотрудников -->
         <DataGrid Grid.Row="2" 
                   Name="EmployeesGrid"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
-                  GridLinesVisibility="All"
-                  SelectionMode="Single">
+                  SelectionMode="Single"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="150"/>
-                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="150"/>
-                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="150"/>
-                <DataGridTextColumn Header="Отдел" Binding="{Binding Department.Name}" Width="150"/>
-                <DataGridTextColumn Header="Должность" Binding="{Binding Position.Name}" Width="150"/>
-                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="120"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="160"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="140"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="160"/>
+                <DataGridTextColumn Header="Отдел" Binding="{Binding Department.Name}" Width="190"/>
+                <DataGridTextColumn Header="Должность" Binding="{Binding Position.Name}" Width="190"/>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="140"/>
                 <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        
-        <!-- Кнопки действий -->
-        <StackPanel Grid.Row="3" 
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Right"
-                    Margin="0,10,0,0">
-            <Button Name="BtnView" 
-                    Content="👁️ Просмотр"
-                    Click="OnView"
-                    Margin="0,0,10,0"/>
-            <Button Name="BtnEdit" 
-                    Content="✏️ Редактировать"
-                    Click="OnEdit"
-                    Margin="0,0,10,0"/>
-            <Button Name="BtnDelete" 
-                    Content="🗑️ Уволить"
-                    Click="OnDelete"/>
-        </StackPanel>
     </Grid>
 </UserControl>

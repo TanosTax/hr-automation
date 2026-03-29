@@ -45,8 +45,8 @@ public partial class VacationFormWindow : Window
             {
                 EmployeeId = ((Employee)CmbEmployee.SelectedItem).Id,
                 Type = (VacationType)CmbType.SelectedItem!,
-                StartDate = DateStart.SelectedDate.Value.DateTime,
-                EndDate = DateEnd.SelectedDate.Value.DateTime,
+                StartDate = DateTime.SpecifyKind(DateStart.SelectedDate.Value.DateTime, DateTimeKind.Utc),
+                EndDate = DateTime.SpecifyKind(DateEnd.SelectedDate.Value.DateTime, DateTimeKind.Utc),
                 Reason = TxtReason.Text,
                 Status = VacationStatus.Pending
             };
@@ -54,7 +54,7 @@ public partial class VacationFormWindow : Window
             _controller.Add(vacation);
             Close();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Обработка ошибок
         }

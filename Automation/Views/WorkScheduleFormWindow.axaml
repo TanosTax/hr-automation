@@ -2,41 +2,73 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Automation.Views.WorkScheduleFormWindow"
         Title="Запись в табель"
-        Width="500" Height="400"
-        WindowStartupLocation="CenterOwner">
+        Width="550" Height="500"
+        WindowStartupLocation="CenterOwner"
+        Background="#1E1E1E">
     
-    <StackPanel Margin="20">
-        <TextBlock Text="Сотрудник *" Margin="0,5,0,2"/>
-        <ComboBox Name="CmbEmployee" 
-                 DisplayMemberBinding="{Binding FullName}"
-                 HorizontalAlignment="Stretch"/>
+    <StackPanel Margin="30">
+        <!-- Заголовок -->
+        <Border Classes="Card" Margin="0,0,0,25">
+            <TextBlock Text="📅 Запись в табель" 
+                      FontSize="24" 
+                      FontWeight="Bold"
+                      Foreground="White"/>
+        </Border>
         
-        <TextBlock Text="Дата *" Margin="0,10,0,2"/>
-        <DatePicker Name="DatePicker"/>
+        <!-- Форма -->
+        <Border Classes="Card" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="Сотрудник *" Margin="0,5,0,5" Foreground="#E0E0E0"/>
+                <ComboBox Name="CmbEmployee" 
+                         DisplayMemberBinding="{Binding FullName}"
+                         HorizontalAlignment="Stretch"/>
+                
+                <TextBlock Text="Дата *" Margin="0,15,0,5" Foreground="#E0E0E0"/>
+                <DatePicker Name="DatePicker" HorizontalAlignment="Stretch"/>
+                
+                <Grid ColumnDefinitions="*,*" Margin="0,15,0,0">
+                    <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                        <TextBlock Text="Время прихода" Margin="0,0,0,5" Foreground="#E0E0E0"/>
+                        <TimePicker Name="TimeCheckIn" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                        <TextBlock Text="Время ухода" Margin="0,0,0,5" Foreground="#E0E0E0"/>
+                        <TimePicker Name="TimeCheckOut" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                </Grid>
+                
+                <CheckBox Name="ChkAbsent" 
+                         Content="Отсутствие" 
+                         Margin="0,15,0,0"
+                         Foreground="White"/>
+                
+                <TextBlock Text="Причина отсутствия" Margin="0,15,0,5" Foreground="#E0E0E0"/>
+                <TextBox Name="TxtReason" 
+                         Height="60" 
+                         AcceptsReturn="True" 
+                         TextWrapping="Wrap"
+                         Watermark="Укажите причину отсутствия"/>
+            </StackPanel>
+        </Border>
         
-        <TextBlock Text="Время прихода" Margin="0,10,0,2"/>
-        <TimePicker Name="TimeCheckIn"/>
-        
-        <TextBlock Text="Время ухода" Margin="0,10,0,2"/>
-        <TimePicker Name="TimeCheckOut"/>
-        
-        <CheckBox Name="ChkAbsent" Content="Отсутствие" Margin="0,10,0,2"/>
-        
-        <TextBlock Text="Причина отсутствия" Margin="0,10,0,2"/>
-        <TextBox Name="TxtReason" Height="60" AcceptsReturn="True" TextWrapping="Wrap"/>
-        
-        <StackPanel Orientation="Horizontal" 
-                   HorizontalAlignment="Right"
-                   Margin="0,20,0,0">
+        <!-- Кнопки -->
+        <Grid ColumnDefinitions="*,*">
             <Button Name="BtnSave" 
+                   Grid.Column="0"
                    Content="💾 Сохранить"
+                   Classes="Primary"
                    Click="OnSave"
-                   Width="120"
-                   Margin="0,0,10,0"/>
+                   HorizontalAlignment="Stretch"
+                   Padding="0,12"
+                   Margin="0,0,8,0"/>
             <Button Name="BtnCancel" 
+                   Grid.Column="1"
                    Content="❌ Отмена"
+                   Classes="Secondary"
                    Click="OnCancel"
-                   Width="120"/>
-        </StackPanel>
+                   HorizontalAlignment="Stretch"
+                   Padding="0,12"
+                   Margin="8,0,0,0"/>
+        </Grid>
     </StackPanel>
 </Window>

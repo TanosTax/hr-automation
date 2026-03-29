@@ -1,49 +1,71 @@
 using System;
+using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Automation.Controllers;
+using Automation.Models;
 using Automation.Services;
 
 namespace Automation.Views;
 
 public partial class DepartmentView : UserControl
 {
-    private readonly DepartmentController _controller;
+    private ObservableCollection<Department> _departments = new();
     
     public DepartmentView()
     {
         InitializeComponent();
-        _controller = new DepartmentController(DatabaseService.GetContext());
-        LoadData();
+        System.Diagnostics.Debug.WriteLine("DepartmentView: Инициализация...");
+        
+        DepartmentsGrid.ItemsSource = _departments;
+        
+        this.Loaded += (s, e) =>
+        {
+            System.Diagnostics.Debug.WriteLine("DepartmentView: Loaded event");
+            LoadData();
+        };
     }
     
     private void LoadData()
     {
         try
         {
-            var departments = _controller.GetAll();
-            DepartmentsGrid.ItemsSource = departments;
+            using var context = DatabaseService.GetContext();
+            var controller = new DepartmentController(context);
+            var departments = controller.GetAll();
+            System.Diagnostics.Debug.WriteLine($"Загружено отделов: {departments.Count}");
+            
+            _departments.Clear();
+            foreach (var dept in departments)
+            {
+                _departments.Add(dept);
+            }
+            
+            System.Diagnostics.Debug.WriteLine($"ObservableCollection содержит: {_departments.Count} элементов");
+            System.Diagnostics.Debug.WriteLine($"DataGrid ItemsSource установлен, элементов: {_departments.Count}");
         }
         catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"ОШИБКА: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"StackTrace: {ex.StackTrace}");
             ShowError($"Ошибка загрузки: {ex.Message}");
         }
     }
     
-    private void OnAdd(object? sender, RoutedEventArgs e)
+    private async void OnAdd(object? sender, RoutedEventArgs e)
     {
         var window = new DepartmentFormWindow();
-        window.ShowDialog((Window)this.VisualRoot!);
+        await window.ShowDialog((Window)this.VisualRoot!);
         LoadData();
     }
     
-    private void OnEdit(object? sender, RoutedEventArgs e)
+    private async void OnEdit(object? sender, RoutedEventArgs e)
     {
         var selected = DepartmentsGrid.SelectedItem as Models.Department;
         if (selected != null)
         {
             var window = new DepartmentFormWindow(selected.Id);
-            window.ShowDialog((Window)this.VisualRoot!);
+            await window.ShowDialog((Window)this.VisualRoot!);
             LoadData();
         }
     }
@@ -59,7 +81,9 @@ public partial class DepartmentView : UserControl
                 return;
             }
             
-            _controller.Delete(selected.Id);
+            using var context = DatabaseService.GetContext();
+            var controller = new DepartmentController(context);
+            controller.Delete(selected.Id);
             LoadData();
         }
     }

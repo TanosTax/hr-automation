@@ -1,177 +1,106 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Automation.Controllers;
+using Automation.Models;
 using Automation.Services;
 
 namespace Automation.Views;
 
 public partial class ReportView : UserControl
 {
-    private readonly EmployeeController _employeeController;
-    private readonly DepartmentController _departmentController;
-    private readonly SalaryController _salaryController;
-    private readonly VacationController _vacationController;
-    
     public ReportView()
     {
         InitializeComponent();
         
-        var context = DatabaseService.GetContext();
-        _employeeController = new EmployeeController(context);
-        _departmentController = new DepartmentController(context);
-        _salaryController = new SalaryController(context);
-        _vacationController = new VacationController(context);
-    }
-    
-    private void OnEmployeeReport(object? sender, RoutedEventArgs e)
-    {
-        var employees = _employeeController.GetActive();
-        
-        var grid = new DataGrid
+        this.Loaded += (s, e) =>
         {
-            AutoGenerateColumns = false,
-            IsReadOnly = true,
-            GridLinesVisibility = DataGridGridLinesVisibility.All
+            LoadStatistics();
         };
-        
-        grid.Columns.Add(new DataGridTextColumn { Header = "ФИО", Binding = new Avalonia.Data.Binding("FullName"), Width = new DataGridLength(250) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Отдел", Binding = new Avalonia.Data.Binding("Department.Name"), Width = new DataGridLength(150) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Должность", Binding = new Avalonia.Data.Binding("Position.Name"), Width = new DataGridLength(150) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Телефон", Binding = new Avalonia.Data.Binding("Phone"), Width = new DataGridLength(120) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Email", Binding = new Avalonia.Data.Binding("Email"), Width = new DataGridLength(1, DataGridLengthUnitType.Star) });
-        
-        grid.ItemsSource = employees;
-        
-        ReportContent.Children.Clear();
-        ReportContent.Children.Add(new TextBlock { Text = $"Всего сотрудников: {employees.Count}", FontWeight = Avalonia.Media.FontWeight.Bold, Margin = new Avalonia.Thickness(0, 0, 0, 10) });
-        ReportContent.Children.Add(grid);
     }
     
-    private void OnDepartmentReport(object? sender, RoutedEventArgs e)
+    private void LoadStatistics()
     {
-        var departments = _departmentController.GetAll();
+        using var context = DatabaseService.GetContext();
         
-        var grid = new DataGrid
+        // Общая статистика
+        var employeeController = new EmployeeController(context);
+        var departmentController = new DepartmentController(context);
+        var vacationController = new VacationController(context);
+        var salaryController = new SalaryController(context);
+        
+        var totalEmployees = employeeController.GetAll().Count;
+        var totalDepartments = departmentController.GetAll().Count;
+        var pendingVacations = vacationController.GetPending().Count;
+        var unpaidSalaries = salaryController.GetAll().Count(s => !s.IsPaid);
+        
+        TxtTotalEmployees.Text = totalEmployees.ToString();
+        TxtTotalDepartments.Text = totalDepartments.ToString();
+        TxtPendingVacations.Text = pendingVacations.ToString();
+        TxtUnpaidSalaries.Text = unpaidSalaries.ToString();
+        
+        // Статистика по отделам
+        var departments = departmentController.GetAll();
+        var departmentStats = new List<DepartmentStatDto>();
+        
+        foreach (var dept in departments)
         {
-            AutoGenerateColumns = false,
-            IsReadOnly = true,
-            GridLinesVisibility = DataGridGridLinesVisibility.All
-        };
+            var employees = employeeController.GetByDepartment(dept.Id);
+            var avgSalary = employees.Any() ? employees.Average(e => e.Position.BaseSalary) : 0;
+            var totalSalary = employees.Sum(e => e.Position.BaseSalary);
+            
+            departmentStats.Add(new DepartmentStatDto
+            {
+                DepartmentName = dept.Name,
+                EmployeeCount = employees.Count,
+                AverageSalary = avgSalary,
+                TotalSalary = totalSalary
+            });
+        }
         
-        grid.Columns.Add(new DataGridTextColumn { Header = "Отдел", Binding = new Avalonia.Data.Binding("Name"), Width = new DataGridLength(250) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Сотрудников", Binding = new Avalonia.Data.Binding("Employees.Count"), Width = new DataGridLength(120) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Описание", Binding = new Avalonia.Data.Binding("Description"), Width = new DataGridLength(1, DataGridLengthUnitType.Star) });
+        DepartmentStatsGrid.ItemsSource = departmentStats;
         
-        grid.ItemsSource = departments;
-        
-        ReportContent.Children.Clear();
-        ReportContent.Children.Add(new TextBlock { Text = "Статистика по отделам", FontSize = 18, FontWeight = Avalonia.Media.FontWeight.Bold, Margin = new Avalonia.Thickness(0, 0, 0, 10) });
-        ReportContent.Children.Add(grid);
-    }
-    
-    private void OnSalaryReport(object? sender, RoutedEventArgs e)
-    {
-        var year = DateTime.Now.Year;
-        var month = DateTime.Now.Month;
-        var salaries = _salaryController.GetByPeriod(year, month);
-        
-        var grid = new DataGrid
-        {
-            AutoGenerateColumns = false,
-            IsReadOnly = true,
-            GridLinesVisibility = DataGridGridLinesVisibility.All
-        };
-        
-        grid.Columns.Add(new DataGridTextColumn { Header = "Сотрудник", Binding = new Avalonia.Data.Binding("Employee.FullName"), Width = new DataGridLength(200) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Отдел", Binding = new Avalonia.Data.Binding("Employee.Department.Name"), Width = new DataGridLength(150) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Оклад", Binding = new Avalonia.Data.Binding("BaseSalary") { StringFormat = "{0:N2}" }, Width = new DataGridLength(100) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Премия", Binding = new Avalonia.Data.Binding("Bonus") { StringFormat = "{0:N2}" }, Width = new DataGridLength(100) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Итого", Binding = new Avalonia.Data.Binding("Total") { StringFormat = "{0:N2}" }, Width = new DataGridLength(120) });
-        
-        grid.ItemsSource = salaries;
-        
-        var total = salaries.Sum(s => s.Total);
-        
-        ReportContent.Children.Clear();
-        ReportContent.Children.Add(new TextBlock { Text = $"Зарплатная ведомость за {month:D2}.{year}", FontSize = 18, FontWeight = Avalonia.Media.FontWeight.Bold, Margin = new Avalonia.Thickness(0, 0, 0, 10) });
-        ReportContent.Children.Add(grid);
-        ReportContent.Children.Add(new TextBlock { Text = $"Общая сумма: {total:N2} ₽", FontSize = 16, FontWeight = Avalonia.Media.FontWeight.Bold, Margin = new Avalonia.Thickness(0, 10, 0, 0) });
-    }
-    
-    private void OnVacationReport(object? sender, RoutedEventArgs e)
-    {
-        var vacations = _vacationController.GetAll().Take(50).ToList();
-        
-        var grid = new DataGrid
-        {
-            AutoGenerateColumns = false,
-            IsReadOnly = true,
-            GridLinesVisibility = DataGridGridLinesVisibility.All
-        };
-        
-        grid.Columns.Add(new DataGridTextColumn { Header = "Сотрудник", Binding = new Avalonia.Data.Binding("Employee.FullName"), Width = new DataGridLength(200) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Тип", Binding = new Avalonia.Data.Binding("Type"), Width = new DataGridLength(120) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Начало", Binding = new Avalonia.Data.Binding("StartDate") { StringFormat = "{0:dd.MM.yyyy}" }, Width = new DataGridLength(100) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Конец", Binding = new Avalonia.Data.Binding("EndDate") { StringFormat = "{0:dd.MM.yyyy}" }, Width = new DataGridLength(100) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Статус", Binding = new Avalonia.Data.Binding("Status"), Width = new DataGridLength(120) });
-        
-        grid.ItemsSource = vacations;
-        
-        ReportContent.Children.Clear();
-        ReportContent.Children.Add(new TextBlock { Text = "Отчет по отпускам", FontSize = 18, FontWeight = Avalonia.Media.FontWeight.Bold, Margin = new Avalonia.Thickness(0, 0, 0, 10) });
-        ReportContent.Children.Add(grid);
-    }
-    
-    private void OnBirthdayReport(object? sender, RoutedEventArgs e)
-    {
-        var employees = _employeeController.GetActive()
-            .Where(e => e.BirthDate.Month == DateTime.Now.Month)
-            .OrderBy(e => e.BirthDate.Day)
+        // Ближайшие дни рождения - показываем всех сотрудников, отсортированных по дате следующего ДР
+        var allEmployees = employeeController.GetAll();
+        var today = DateTime.Now;
+        var upcomingBirthdays = allEmployees
+            .Select(e => new
+            {
+                Employee = e,
+                NextBirthday = GetNextBirthday(e.BirthDate, today),
+                DaysUntil = (GetNextBirthday(e.BirthDate, today) - today).Days
+            })
+            .OrderBy(x => x.DaysUntil)
+            .Take(10) // Показываем 10 ближайших
+            .Select(x => x.Employee)
             .ToList();
         
-        var grid = new DataGrid
-        {
-            AutoGenerateColumns = false,
-            IsReadOnly = true,
-            GridLinesVisibility = DataGridGridLinesVisibility.All
-        };
+        BirthdaysGrid.ItemsSource = upcomingBirthdays;
         
-        grid.Columns.Add(new DataGridTextColumn { Header = "ФИО", Binding = new Avalonia.Data.Binding("FullName"), Width = new DataGridLength(250) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Дата рождения", Binding = new Avalonia.Data.Binding("BirthDate") { StringFormat = "{0:dd.MM.yyyy}" }, Width = new DataGridLength(150) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Отдел", Binding = new Avalonia.Data.Binding("Department.Name"), Width = new DataGridLength(150) });
-        grid.Columns.Add(new DataGridTextColumn { Header = "Должность", Binding = new Avalonia.Data.Binding("Position.Name"), Width = new DataGridLength(1, DataGridLengthUnitType.Star) });
+        // Отпуска - показываем все одобренные отпуска
+        var activeVacations = vacationController.GetAll()
+            .Where(v => v.Status == VacationStatus.Approved)
+            .OrderByDescending(v => v.StartDate)
+            .Take(10)
+            .ToList();
         
-        grid.ItemsSource = employees;
-        
-        ReportContent.Children.Clear();
-        ReportContent.Children.Add(new TextBlock { Text = $"Дни рождения в {DateTime.Now:MMMM}", FontSize = 18, FontWeight = Avalonia.Media.FontWeight.Bold, Margin = new Avalonia.Thickness(0, 0, 0, 10) });
-        ReportContent.Children.Add(grid);
+        ActiveVacationsGrid.ItemsSource = activeVacations;
     }
     
-    private async void OnExport(object? sender, RoutedEventArgs e)
+    private DateTime GetNextBirthday(DateTime birthDate, DateTime today)
     {
-        var dialog = new Window
-        {
-            Title = "Экспорт",
-            Width = 300,
-            Height = 150,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            Content = new StackPanel
-            {
-                Margin = new Avalonia.Thickness(20),
-                Children =
-                {
-                    new TextBlock { Text = "Функция экспорта в разработке", Margin = new Avalonia.Thickness(0, 0, 0, 20) },
-                    new Button { Content = "OK", Width = 80, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right }
-                }
-            }
-        };
-        
-        var btn = ((StackPanel)dialog.Content).Children[1] as Button;
-        btn!.Click += (s, e) => dialog.Close();
-        
-        await dialog.ShowDialog((Window)this.VisualRoot!);
+        var nextBirthday = new DateTime(today.Year, birthDate.Month, birthDate.Day);
+        if (nextBirthday < today)
+            nextBirthday = nextBirthday.AddYears(1);
+        return nextBirthday;
     }
+}
+
+public class DepartmentStatDto
+{
+    public string DepartmentName { get; set; } = "";
+    public int EmployeeCount { get; set; }
+    public decimal AverageSalary { get; set; }
+    public decimal TotalSalary { get; set; }
 }

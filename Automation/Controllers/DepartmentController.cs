@@ -19,6 +19,7 @@ public class DepartmentController
     {
         return _context.Departments
             .Include(d => d.Employees)
+            .AsNoTracking()
             .OrderBy(d => d.Name)
             .ToList();
     }

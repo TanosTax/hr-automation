@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Automation.Controllers;
@@ -9,35 +10,46 @@ namespace Automation.Views;
 
 public partial class PositionView : UserControl
 {
-    private readonly PositionController _controller;
+    private ObservableCollection<Position> _positions = new();
     
     public PositionView()
     {
         InitializeComponent();
-        _controller = new PositionController(DatabaseService.GetContext());
-        LoadData();
+        
+        PositionsGrid.ItemsSource = _positions;
+        
+        this.Loaded += (s, e) =>
+        {
+            LoadData();
+        };
     }
     
     private void LoadData()
     {
-        var positions = _controller.GetAll();
-        PositionsGrid.ItemsSource = positions;
+        using var context = DatabaseService.GetContext();
+        var controller = new PositionController(context);
+        var positions = controller.GetAll();
+        _positions.Clear();
+        foreach (var pos in positions)
+        {
+            _positions.Add(pos);
+        }
     }
     
-    private void OnAdd(object? sender, RoutedEventArgs e)
+    private async void OnAdd(object? sender, RoutedEventArgs e)
     {
         var window = new PositionFormWindow();
-        window.ShowDialog((Window)this.VisualRoot!);
+        await window.ShowDialog((Window)this.VisualRoot!);
         LoadData();
     }
     
-    private void OnEdit(object? sender, RoutedEventArgs e)
+    private async void OnEdit(object? sender, RoutedEventArgs e)
     {
         var selected = PositionsGrid.SelectedItem as Position;
         if (selected != null)
         {
             var window = new PositionFormWindow(selected.Id);
-            window.ShowDialog((Window)this.VisualRoot!);
+            await window.ShowDialog((Window)this.VisualRoot!);
             LoadData();
         }
     }
@@ -47,7 +59,9 @@ public partial class PositionView : UserControl
         var selected = PositionsGrid.SelectedItem as Position;
         if (selected != null)
         {
-            _controller.Delete(selected.Id);
+            using var context = DatabaseService.GetContext();
+            var controller = new PositionController(context);
+            controller.Delete(selected.Id);
             LoadData();
         }
     }

@@ -1,10 +1,605 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="Automation.App"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             RequestedThemeVariant="Dark">
 
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+        
+        <!-- Стили для кнопок меню -->
+        <Style Selector="Button.MenuButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="18,16"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.3"/>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Button.MenuButton:pointerover">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="#2D2D30" Offset="0"/>
+                        <GradientStop Color="#3E3E42" Offset="0.5"/>
+                        <GradientStop Color="#4E4E52" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RenderTransform" Value="translateX(4px)"/>
+        </Style>
+        
+        <Style Selector="Button.MenuButton:pressed">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="0.5"/>
+                        <GradientStop Color="#1A8FDD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RenderTransform" Value="translateX(2px)"/>
+        </Style>
+        
+        <!-- Стили для акцентных кнопок -->
+        <Style Selector="Button.Primary">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="0.5"/>
+                        <GradientStop Color="#1A8FDD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="18,13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2" Easing="CubicEaseOut"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Button.Primary:pointerover">
+            <Setter Property="RenderTransform" Value="scale(1.03) translateY(-1px)"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#1177BB" Offset="0"/>
+                        <GradientStop Color="#1A8FDD" Offset="0.5"/>
+                        <GradientStop Color="#2AA0FF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Button.Primary:pressed">
+            <Setter Property="RenderTransform" Value="scale(0.97)"/>
+        </Style>
+        
+        <!-- Стили для вторичных кнопок -->
+        <Style Selector="Button.Secondary">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#3E3E42" Offset="0"/>
+                        <GradientStop Color="#2D2D30" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="18,13"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2"/>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2" Easing="CubicEaseOut"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Button.Secondary:pointerover">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#4E4E52" Offset="0"/>
+                        <GradientStop Color="#3E3E42" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RenderTransform" Value="scale(1.03) translateY(-1px)"/>
+        </Style>
+        
+        <Style Selector="Button.Secondary:pressed">
+            <Setter Property="RenderTransform" Value="scale(0.97)"/>
+        </Style>
+        
+        <!-- Стили для кнопок удаления -->
+        <Style Selector="Button.Danger">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#C42B1C" Offset="0"/>
+                        <GradientStop Color="#E81123" Offset="0.5"/>
+                        <GradientStop Color="#FF2D3D" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="18,13"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2" Easing="CubicEaseOut"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Button.Danger:pointerover">
+            <Setter Property="RenderTransform" Value="scale(1.03) translateY(-1px)"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#E81123" Offset="0"/>
+                        <GradientStop Color="#FF2D3D" Offset="0.5"/>
+                        <GradientStop Color="#FF4757" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Button.Danger:pressed">
+            <Setter Property="RenderTransform" Value="scale(0.97)"/>
+        </Style>
+        
+        <!-- Стили для успешных кнопок -->
+        <Style Selector="Button.Success">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#107C10" Offset="0"/>
+                        <GradientStop Color="#0F8B0F" Offset="0.5"/>
+                        <GradientStop Color="#10A010" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="18,13"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2" Easing="CubicEaseOut"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Button.Success:pointerover">
+            <Setter Property="RenderTransform" Value="scale(1.03) translateY(-1px)"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#0F8B0F" Offset="0"/>
+                        <GradientStop Color="#10A010" Offset="0.5"/>
+                        <GradientStop Color="#12B512" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Button.Success:pressed">
+            <Setter Property="RenderTransform" Value="scale(0.97)"/>
+        </Style>
+        
+        <!-- Стили для карточек -->
+        <Style Selector="Border.Card">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#2D2D30" Offset="0"/>
+                        <GradientStop Color="#252526" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Padding" Value="28"/>
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#3E3E42" Offset="0"/>
+                        <GradientStop Color="#2D2D30" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BoxShadow" Value="0 8 24 0 #00000050, 0 2 8 0 #00000030"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BoxShadowsTransition Property="BoxShadow" Duration="0:0:0.3"/>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.3"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Border.Card:pointerover">
+            <Setter Property="BoxShadow" Value="0 12 32 0 #00000070, 0 4 12 0 #00000040"/>
+            <Setter Property="RenderTransform" Value="translateY(-2px)"/>
+        </Style>
+        
+        <!-- Стили для статистических карточек -->
+        <Style Selector="Border.StatCard">
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Padding" Value="30"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BoxShadow" Value="0 8 28 0 #00000060, 0 4 12 0 #00000040"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.3" Easing="CubicEaseOut"/>
+                    <BoxShadowsTransition Property="BoxShadow" Duration="0:0:0.3"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Border.StatCard:pointerover">
+            <Setter Property="RenderTransform" Value="translateY(-6px) scale(1.02)"/>
+            <Setter Property="BoxShadow" Value="0 16 48 0 #000000A0, 0 8 20 0 #00000060"/>
+        </Style>
+        
+        <!-- Стили для DataGrid -->
+        <Style Selector="DataGrid">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E1E1E" Offset="0"/>
+                        <GradientStop Color="#1A1A1A" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RowBackground" Value="#252526"/>
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#3E3E42" Offset="0"/>
+                        <GradientStop Color="#2D2D30" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="GridLinesVisibility" Value="All"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#2D2D30"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#2D2D30"/>
+            <Setter Property="CornerRadius" Value="12"/>
+        </Style>
+        
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#3E3E42" Offset="0"/>
+                        <GradientStop Color="#2D2D30" Offset="0.5"/>
+                        <GradientStop Color="#1E1E1E" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#F0F0F0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="14,14"/>
+        </Style>
+        
+        <Style Selector="DataGridColumnHeader:pointerover">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#4E4E52" Offset="0"/>
+                        <GradientStop Color="#3E3E42" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+            <Setter Property="Fill">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+            <Setter Property="Fill">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="#2D2D30" Offset="0"/>
+                        <GradientStop Color="#3E3E42" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Opacity" Value="0.9"/>
+        </Style>
+        
+        <Style Selector="DataGridRow">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.2"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <!-- Стили для TextBox -->
+        <Style Selector="TextBox">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E1E1E" Offset="0"/>
+                        <GradientStop Color="#1A1A1A" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3E3E42"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="14,12"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.3"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="TextBox:focus">
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style Selector="TextBox:pointerover">
+            <Setter Property="BorderBrush" Value="#4E4E52"/>
+        </Style>
+        
+        <!-- Стили для ComboBox -->
+        <Style Selector="ComboBox">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E1E1E" Offset="0"/>
+                        <GradientStop Color="#1A1A1A" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3E3E42"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="14,12"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.3"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="ComboBox:focus">
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style Selector="ComboBox:pointerover">
+            <Setter Property="BorderBrush" Value="#4E4E52"/>
+        </Style>
+        
+        <!-- Стили для NumericUpDown -->
+        <Style Selector="NumericUpDown">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E1E1E" Offset="0"/>
+                        <GradientStop Color="#1A1A1A" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3E3E42"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.3"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="NumericUpDown:focus">
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style Selector="NumericUpDown:pointerover">
+            <Setter Property="BorderBrush" Value="#4E4E52"/>
+        </Style>
+        
+        <!-- Стили для DatePicker -->
+        <Style Selector="DatePicker">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E1E1E" Offset="0"/>
+                        <GradientStop Color="#1A1A1A" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3E3E42"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.3"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="DatePicker:focus">
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style Selector="DatePicker:pointerover">
+            <Setter Property="BorderBrush" Value="#4E4E52"/>
+        </Style>
+        
+        <!-- Стили для TimePicker -->
+        <Style Selector="TimePicker">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E1E1E" Offset="0"/>
+                        <GradientStop Color="#1A1A1A" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3E3E42"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.3"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="TimePicker:focus">
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style Selector="TimePicker:pointerover">
+            <Setter Property="BorderBrush" Value="#4E4E52"/>
+        </Style>
+        
+        <!-- Стили для CheckBox -->
+        <Style Selector="CheckBox">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        
+        <!-- Стили для ScrollViewer -->
+        <Style Selector="ScrollViewer">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        
+        <Style Selector="ScrollBar">
+            <Setter Property="Background" Value="#1A1A1A"/>
+        </Style>
+        
+        <Style Selector="ScrollBar:vertical">
+            <Setter Property="Width" Value="12"/>
+        </Style>
+        
+        <Style Selector="ScrollBar:horizontal">
+            <Setter Property="Height" Value="12"/>
+        </Style>
+        
+        <Style Selector="ScrollBar /template/ Thumb">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#4E4E52" Offset="0"/>
+                        <GradientStop Color="#3E3E42" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2"/>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="ScrollBar /template/ Thumb:pointerover">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Стили для Window -->
+        <Style Selector="Window">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#1A1A1A" Offset="0"/>
+                        <GradientStop Color="#0F0F0F" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Styles>
 </Application>

@@ -2,43 +2,80 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="Automation.Views.WorkScheduleView">
     
-    <Grid RowDefinitions="Auto,Auto,*,Auto">
-        <TextBlock Grid.Row="0" 
-                   Text="Табель учета рабочего времени" 
-                   FontSize="24" 
-                   FontWeight="Bold"
-                   Margin="0,0,0,20"/>
+    <Grid RowDefinitions="Auto,Auto,*" Margin="25">
+        <!-- Заголовок -->
+        <Border Grid.Row="0" Margin="0,0,0,25" CornerRadius="16" BoxShadow="0 8 28 0 #00000060, 0 4 12 0 #05966940" Padding="30,26">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="#059669" Offset="0"/>
+                    <GradientStop Color="#10B981" Offset="0.5"/>
+                    <GradientStop Color="#34D399" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="📅 Табель" 
+                               FontSize="32" 
+                               FontWeight="Black"
+                               Foreground="White"/>
+                    <TextBlock Text="Учет рабочего времени" 
+                               FontSize="15" 
+                               FontWeight="Medium"
+                               Foreground="#D1FAE5"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+                <Button Name="BtnAdd" 
+                        Grid.Column="1"
+                        Content="➕ Добавить запись"
+                        Classes="Success"
+                        Click="OnAdd"
+                        VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
         
-        <Grid Grid.Row="1" ColumnDefinitions="Auto,200,Auto,*" Margin="0,0,0,10">
-            <TextBlock Grid.Column="0" Text="Дата:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <DatePicker Name="DatePicker" Grid.Column="1" Margin="0,0,20,0"/>
-            <Button Name="BtnLoad" Grid.Column="2" Content="Загрузить" Click="OnLoad"/>
-        </Grid>
+        <!-- Фильтр по дате -->
+        <Border Grid.Row="1" Classes="Card" Margin="0,0,0,25">
+            <Grid ColumnDefinitions="Auto,270,Auto,Auto">
+                <TextBlock Grid.Column="0" 
+                          Text="Фильтр по дате:" 
+                          VerticalAlignment="Center" 
+                          Foreground="White"
+                          FontWeight="Medium"
+                          Margin="0,0,15,0"/>
+                <DatePicker Name="DatePicker" 
+                           Grid.Column="1" 
+                           Margin="0,0,15,0"/>
+                <Button Name="BtnLoad" 
+                        Grid.Column="2" 
+                        Content="🔍 Фильтр" 
+                        Classes="Secondary"
+                        Click="OnLoad"
+                        Margin="0,0,12,0"/>
+                <Button Name="BtnShowAll" 
+                        Grid.Column="3" 
+                        Content="📋 Все записи" 
+                        Classes="Primary"
+                        Click="OnShowAll"/>
+            </Grid>
+        </Border>
         
+        <!-- Таблица -->
         <DataGrid Grid.Row="2" 
                   Name="ScheduleGrid"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
-                  GridLinesVisibility="All">
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="200"/>
-                <DataGridTextColumn Header="Отдел" Binding="{Binding Employee.Department.Name}" Width="150"/>
-                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="100"/>
-                <DataGridTextColumn Header="Приход" Binding="{Binding CheckIn}" Width="80"/>
-                <DataGridTextColumn Header="Уход" Binding="{Binding CheckOut}" Width="80"/>
-                <DataGridTextColumn Header="Часов" Binding="{Binding WorkedHours}" Width="80"/>
-                <DataGridCheckBoxColumn Header="Отсутствие" Binding="{Binding IsAbsent}" Width="100"/>
-                <DataGridTextColumn Header="Причина" Binding="{Binding AbsenceReason}" Width="*"/>
+                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="210"/>
+                <DataGridTextColumn Header="Отдел" Binding="{Binding Employee.Department.Name}" Width="160"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
+                <DataGridTextColumn Header="Приход" Binding="{Binding CheckIn}" Width="100"/>
+                <DataGridTextColumn Header="Уход" Binding="{Binding CheckOut}" Width="100"/>
+                <DataGridTextColumn Header="Часов" Binding="{Binding WorkedHours}" Width="100"/>
+                <DataGridCheckBoxColumn Header="Отсутствие" Binding="{Binding IsAbsent}" Width="120"/>
+                <DataGridTextColumn Header="Причина отсутствия" Binding="{Binding AbsenceReason}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        
-        <StackPanel Grid.Row="3" 
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Right"
-                    Margin="0,10,0,0">
-            <Button Name="BtnAdd" 
-                    Content="➕ Добавить запись"
-                    Click="OnAdd"/>
-        </StackPanel>
     </Grid>
 </UserControl>
