@@ -1,0 +1,75 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Automation.Views.EmployeeFormWindow"
+        Title="Сотрудник"
+        Width="600" Height="700"
+        WindowStartupLocation="CenterOwner">
+    
+    <ScrollViewer>
+        <StackPanel Margin="20">
+            <TextBlock Text="Информация о сотруднике" 
+                      FontSize="20" 
+                      FontWeight="Bold"
+                      Margin="0,0,0,20"/>
+            
+            <!-- Личные данные -->
+            <TextBlock Text="Фамилия *" Margin="0,5,0,2"/>
+            <TextBox Name="TxtLastName" Watermark="Иванов"/>
+            
+            <TextBlock Text="Имя *" Margin="0,10,0,2"/>
+            <TextBox Name="TxtFirstName" Watermark="Иван"/>
+            
+            <TextBlock Text="Отчество" Margin="0,10,0,2"/>
+            <TextBox Name="TxtMiddleName" Watermark="Иванович"/>
+            
+            <TextBlock Text="Дата рождения *" Margin="0,10,0,2"/>
+            <DatePicker Name="DateBirth"/>
+            
+            <!-- Паспортные данные -->
+            <TextBlock Text="Серия паспорта" Margin="0,10,0,2"/>
+            <TextBox Name="TxtPassportSeries" Watermark="1234"/>
+            
+            <TextBlock Text="Номер паспорта" Margin="0,10,0,2"/>
+            <TextBox Name="TxtPassportNumber" Watermark="567890"/>
+            
+            <!-- Контакты -->
+            <TextBlock Text="Адрес" Margin="0,10,0,2"/>
+            <TextBox Name="TxtAddress" Watermark="г. Москва, ул. Ленина, д. 1"/>
+            
+            <TextBlock Text="Телефон" Margin="0,10,0,2"/>
+            <TextBox Name="TxtPhone" Watermark="+7 (999) 123-45-67"/>
+            
+            <TextBlock Text="Email" Margin="0,10,0,2"/>
+            <TextBox Name="TxtEmail" Watermark="ivanov@example.com"/>
+            
+            <!-- Рабочая информация -->
+            <TextBlock Text="Отдел *" Margin="0,10,0,2"/>
+            <ComboBox Name="CmbDepartment" 
+                     DisplayMemberBinding="{Binding Name}"
+                     HorizontalAlignment="Stretch"/>
+            
+            <TextBlock Text="Должность *" Margin="0,10,0,2"/>
+            <ComboBox Name="CmbPosition" 
+                     DisplayMemberBinding="{Binding Name}"
+                     HorizontalAlignment="Stretch"/>
+            
+            <TextBlock Text="Дата приема *" Margin="0,10,0,2"/>
+            <DatePicker Name="DateHire"/>
+            
+            <!-- Кнопки -->
+            <StackPanel Orientation="Horizontal" 
+                       HorizontalAlignment="Right"
+                       Margin="0,20,0,0">
+                <Button Name="BtnSave" 
+                       Content="💾 Сохранить"
+                       Click="OnSave"
+                       Width="120"
+                       Margin="0,0,10,0"/>
+                <Button Name="BtnCancel" 
+                       Content="❌ Отмена"
+                       Click="OnCancel"
+                       Width="120"/>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

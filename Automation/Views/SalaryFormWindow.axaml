@@ -1,0 +1,62 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Automation.Views.SalaryFormWindow"
+        Title="Начисление зарплаты"
+        Width="500" Height="450"
+        WindowStartupLocation="CenterOwner">
+    
+    <StackPanel Margin="20">
+        <TextBlock Text="Сотрудник *" Margin="0,5,0,2"/>
+        <ComboBox Name="CmbEmployee" 
+                 DisplayMemberBinding="{Binding FullName}"
+                 HorizontalAlignment="Stretch"
+                 SelectionChanged="OnEmployeeSelected"/>
+        
+        <TextBlock Text="Год *" Margin="0,10,0,2"/>
+        <NumericUpDown Name="NumYear" Minimum="2020" Maximum="2030"/>
+        
+        <TextBlock Text="Месяц *" Margin="0,10,0,2"/>
+        <NumericUpDown Name="NumMonth" Minimum="1" Maximum="12"/>
+        
+        <TextBlock Text="Базовый оклад *" Margin="0,10,0,2"/>
+        <NumericUpDown Name="NumBaseSalary" 
+                      Minimum="0"
+                      Maximum="1000000"
+                      Increment="1000"
+                      FormatString="N2"/>
+        
+        <TextBlock Text="Премия" Margin="0,10,0,2"/>
+        <NumericUpDown Name="NumBonus" 
+                      Minimum="0"
+                      Maximum="1000000"
+                      Increment="1000"
+                      FormatString="N2"/>
+        
+        <TextBlock Text="Удержания" Margin="0,10,0,2"/>
+        <NumericUpDown Name="NumDeductions" 
+                      Minimum="0"
+                      Maximum="1000000"
+                      Increment="100"
+                      FormatString="N2"/>
+        
+        <TextBlock Text="Примечания" Margin="0,10,0,2"/>
+        <TextBox Name="TxtNotes" 
+                 Height="60"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"/>
+        
+        <StackPanel Orientation="Horizontal" 
+                   HorizontalAlignment="Right"
+                   Margin="0,20,0,0">
+            <Button Name="BtnSave" 
+                   Content="💾 Сохранить"
+                   Click="OnSave"
+                   Width="120"
+                   Margin="0,0,10,0"/>
+            <Button Name="BtnCancel" 
+                   Content="❌ Отмена"
+                   Click="OnCancel"
+                   Width="120"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

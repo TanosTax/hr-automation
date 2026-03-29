@@ -1,0 +1,56 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Automation.Views.VacationView">
+    
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <TextBlock Grid.Row="0" 
+                   Text="Учет отпусков и больничных" 
+                   FontSize="24" 
+                   FontWeight="Bold"
+                   Margin="0,0,0,20"/>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Name="BtnAll" 
+                    Content="Все"
+                    Click="OnShowAll"
+                    Margin="0,0,10,0"/>
+            <Button Name="BtnPending" 
+                    Content="На согласовании"
+                    Click="OnShowPending"
+                    Margin="0,0,10,0"/>
+        </StackPanel>
+        
+        <DataGrid Grid.Row="2" 
+                  Name="VacationsGrid"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  GridLinesVisibility="All">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="200"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="120"/>
+                <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="100"/>
+                <DataGridTextColumn Header="Конец" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="100"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
+                <DataGridTextColumn Header="Причина" Binding="{Binding Reason}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <StackPanel Grid.Row="3" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right"
+                    Margin="0,10,0,0">
+            <Button Name="BtnAdd" 
+                    Content="➕ Добавить"
+                    Click="OnAdd"
+                    Margin="0,0,10,0"/>
+            <Button Name="BtnApprove" 
+                    Content="✅ Одобрить"
+                    Click="OnApprove"
+                    Margin="0,0,10,0"/>
+            <Button Name="BtnReject" 
+                    Content="❌ Отклонить"
+                    Click="OnReject"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

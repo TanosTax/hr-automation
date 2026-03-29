@@ -1,0 +1,112 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Automation.Views.EmployeeDetailsWindow"
+        Title="Карточка сотрудника"
+        Width="800" Height="600"
+        WindowStartupLocation="CenterOwner">
+    
+    <ScrollViewer>
+        <StackPanel Margin="20">
+            <TextBlock Name="TxtFullName" 
+                      FontSize="24" 
+                      FontWeight="Bold"
+                      Margin="0,0,0,20"/>
+            
+            <TabControl>
+                <!-- Основная информация -->
+                <TabItem Header="Основная информация">
+                    <ScrollViewer>
+                        <StackPanel Margin="10">
+                            <Grid ColumnDefinitions="150,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата рождения:" Margin="0,5"/>
+                                <TextBlock Name="TxtBirthDate" Grid.Row="0" Grid.Column="1" Margin="0,5"/>
+                                
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Паспорт:" Margin="0,5"/>
+                                <TextBlock Name="TxtPassport" Grid.Row="1" Grid.Column="1" Margin="0,5"/>
+                                
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Адрес:" Margin="0,5"/>
+                                <TextBlock Name="TxtAddress" Grid.Row="2" Grid.Column="1" Margin="0,5" TextWrapping="Wrap"/>
+                                
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Телефон:" Margin="0,5"/>
+                                <TextBlock Name="TxtPhone" Grid.Row="3" Grid.Column="1" Margin="0,5"/>
+                                
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Email:" Margin="0,5"/>
+                                <TextBlock Name="TxtEmail" Grid.Row="4" Grid.Column="1" Margin="0,5"/>
+                                
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Отдел:" Margin="0,5"/>
+                                <TextBlock Name="TxtDepartment" Grid.Row="5" Grid.Column="1" Margin="0,5"/>
+                                
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="Должность:" Margin="0,5"/>
+                                <TextBlock Name="TxtPosition" Grid.Row="6" Grid.Column="1" Margin="0,5"/>
+                                
+                                <TextBlock Grid.Row="7" Grid.Column="0" Text="Дата приема:" Margin="0,5"/>
+                                <TextBlock Name="TxtHireDate" Grid.Row="7" Grid.Column="1" Margin="0,5"/>
+                                
+                                <TextBlock Grid.Row="8" Grid.Column="0" Text="Статус:" Margin="0,5"/>
+                                <TextBlock Name="TxtStatus" Grid.Row="8" Grid.Column="1" Margin="0,5"/>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+                
+                <!-- Документы -->
+                <TabItem Header="Документы">
+                    <Grid RowDefinitions="*,Auto">
+                        <DataGrid Name="DocumentsGrid" 
+                                 Grid.Row="0"
+                                 AutoGenerateColumns="False"
+                                 IsReadOnly="True"
+                                 Margin="10">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="150"/>
+                                <DataGridTextColumn Header="Серия" Binding="{Binding Series}" Width="100"/>
+                                <DataGridTextColumn Header="Номер" Binding="{Binding Number}" Width="150"/>
+                                <DataGridTextColumn Header="Дата выдачи" Binding="{Binding IssueDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
+                                <DataGridTextColumn Header="Кем выдан" Binding="{Binding IssuedBy}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+                
+                <!-- Контракты -->
+                <TabItem Header="Трудовые договоры">
+                    <DataGrid Name="ContractsGrid" 
+                             AutoGenerateColumns="False"
+                             IsReadOnly="True"
+                             Margin="10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding ContractNumber}" Width="120"/>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="150"/>
+                            <DataGridTextColumn Header="Дата подписания" Binding="{Binding SignDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="150"/>
+                            <DataGridTextColumn Header="Дата окончания" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="150"/>
+                            <DataGridTextColumn Header="Оклад" Binding="{Binding Salary, StringFormat='{}{0:N2}'}" Width="120"/>
+                            <DataGridCheckBoxColumn Header="Активен" Binding="{Binding IsActive}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                
+                <!-- Отпуска -->
+                <TabItem Header="Отпуска">
+                    <DataGrid Name="VacationsGrid" 
+                             AutoGenerateColumns="False"
+                             IsReadOnly="True"
+                             Margin="10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="120"/>
+                            <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
+                            <DataGridTextColumn Header="Конец" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
+                            <DataGridTextColumn Header="Причина" Binding="{Binding Reason}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+            
+            <Button Content="Закрыть" 
+                   Click="OnClose"
+                   Width="120"
+                   HorizontalAlignment="Right"
+                   Margin="0,20,0,0"/>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

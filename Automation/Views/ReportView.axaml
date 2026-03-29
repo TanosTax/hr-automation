@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Automation.Views.ReportView">
+    
+    <Grid RowDefinitions="Auto,Auto,*">
+        <TextBlock Grid.Row="0" 
+                   Text="Отчеты" 
+                   FontSize="24" 
+                   FontWeight="Bold"
+                   Margin="0,0,0,20"/>
+        
+        <StackPanel Grid.Row="1" Margin="0,0,0,20">
+            <TextBlock Text="Выберите тип отчета:" FontWeight="Bold" Margin="0,0,0,10"/>
+            
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <Button Name="BtnEmployeeReport" 
+                        Content="📋 Список сотрудников"
+                        Click="OnEmployeeReport"
+                        Width="200"
+                        Margin="0,0,10,0"/>
+                <Button Name="BtnDepartmentReport" 
+                        Content="🏢 По отделам"
+                        Click="OnDepartmentReport"
+                        Width="200"
+                        Margin="0,0,10,0"/>
+                <Button Name="BtnSalaryReport" 
+                        Content="💰 Зарплатная ведомость"
+                        Click="OnSalaryReport"
+                        Width="200"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <Button Name="BtnVacationReport" 
+                        Content="🏖️ Отпуска"
+                        Click="OnVacationReport"
+                        Width="200"
+                        Margin="0,0,10,0"/>
+                <Button Name="BtnBirthdayReport" 
+                        Content="🎂 Дни рождения"
+                        Click="OnBirthdayReport"
+                        Width="200"
+                        Margin="0,0,10,0"/>
+                <Button Name="BtnExport" 
+                        Content="📄 Экспорт в CSV"
+                        Click="OnExport"
+                        Width="200"/>
+            </StackPanel>
+        </StackPanel>
+        
+        <ScrollViewer Grid.Row="2">
+            <StackPanel Name="ReportContent">
+                <TextBlock Text="Выберите тип отчета для просмотра" 
+                          FontSize="16" 
+                          Foreground="Gray"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Margin="0,50,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
