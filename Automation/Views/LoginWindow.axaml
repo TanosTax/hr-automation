@@ -1,0 +1,142 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Automation.Views.LoginWindow"
+        Title="Вход в систему"
+        Width="1920" Height="1080"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        SystemDecorations="None">
+    
+    <Border>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#0F0F0F" Offset="0"/>
+                <GradientStop Color="#1A1A1A" Offset="0.5"/>
+                <GradientStop Color="#0F0F0F" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        
+        <Grid>
+            <!-- Кнопка закрытия -->
+            <Button Content="✕" 
+                   Click="OnClose"
+                   Width="40" 
+                   Height="40"
+                   FontSize="20"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Margin="10"
+                   Background="Transparent"
+                   Foreground="#808080"
+                   BorderThickness="0"
+                   Cursor="Hand"/>
+            
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="380">
+            <!-- Логотип -->
+            <Border CornerRadius="100" 
+                   Width="120" 
+                   Height="120" 
+                   Margin="0,0,0,35"
+                   BoxShadow="0 12 40 0 #0E639C60">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#0E639C" Offset="0"/>
+                        <GradientStop Color="#1177BB" Offset="0.5"/>
+                        <GradientStop Color="#1A8FDD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <TextBlock Text="🔐" 
+                          FontSize="64" 
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"/>
+            </Border>
+            
+            <!-- Заголовок -->
+            <TextBlock Text="Вход в систему" 
+                      FontSize="32" 
+                      FontWeight="Black"
+                      Foreground="White"
+                      HorizontalAlignment="Center"
+                      Margin="0,0,0,10"/>
+            
+            <TextBlock Text="HR Automation System" 
+                      FontSize="14" 
+                      Foreground="#808080"
+                      HorizontalAlignment="Center"
+                      Margin="0,0,0,40"/>
+            
+            <!-- Форма входа -->
+            <Border CornerRadius="16" Padding="35,30" BoxShadow="0 8 32 0 #00000060">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E1E1E" Offset="0"/>
+                        <GradientStop Color="#252526" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                
+                <StackPanel>
+                    <!-- Логин -->
+                    <TextBlock Text="Логин" 
+                              FontSize="13" 
+                              Foreground="#B0B0B0"
+                              Margin="0,0,0,8"/>
+                    <TextBox Name="UsernameBox" 
+                            Watermark="Введите логин"
+                            Margin="0,0,0,20"/>
+                    
+                    <!-- Пароль -->
+                    <TextBlock Text="Пароль" 
+                              FontSize="13" 
+                              Foreground="#B0B0B0"
+                              Margin="0,0,0,8"/>
+                    <TextBox Name="PasswordBox" 
+                            Watermark="Введите пароль"
+                            PasswordChar="●"
+                            Margin="0,0,0,25"/>
+                    
+                    <!-- Сообщение об ошибке -->
+                    <TextBlock Name="ErrorText" 
+                              Text="" 
+                              Foreground="#FF4444"
+                              FontSize="12"
+                              TextWrapping="Wrap"
+                              HorizontalAlignment="Center"
+                              Margin="0,0,0,15"
+                              IsVisible="False"/>
+                    
+                    <!-- Кнопка входа -->
+                    <Button Content="Войти" 
+                           Click="OnLogin"
+                           HorizontalAlignment="Stretch"
+                           Height="45"
+                           FontSize="15"
+                           FontWeight="SemiBold"/>
+                </StackPanel>
+            </Border>
+            
+            <!-- Подсказка -->
+            <Border CornerRadius="12" 
+                   Padding="20,15" 
+                   Margin="0,25,0,0"
+                   Background="#1E1E1E">
+                <StackPanel>
+                    <TextBlock Text="💡 Тестовые учетные записи:" 
+                              FontSize="12" 
+                              Foreground="#808080"
+                              Margin="0,0,0,8"/>
+                    <TextBlock Text="admin / admin123 (Администратор)" 
+                              FontSize="11" 
+                              Foreground="#B0B0B0"
+                              Margin="0,0,0,3"/>
+                    <TextBlock Text="hr / hr123 (HR Менеджер)" 
+                              FontSize="11" 
+                              Foreground="#B0B0B0"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        </Grid>
+    </Border>
+</Window>

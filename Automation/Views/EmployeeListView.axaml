@@ -33,32 +33,72 @@
             </Grid>
         </Border>
         
-        <!-- Панель поиска -->
+        <!-- Панель поиска и фильтров -->
         <Border Grid.Row="1" Classes="Card" Margin="0,0,0,25">
-            <Grid ColumnDefinitions="*,Auto,Auto,Auto">
-                <TextBox Name="SearchBox" 
-                         Grid.Column="0"
-                         Watermark="🔍 Поиск по ФИО или email..."
-                         TextChanged="OnSearchTextChanged"
-                         Margin="0,0,15,0"/>
-                <Button Name="BtnView" 
-                        Grid.Column="1"
-                        Content="👁️ Просмотр"
-                        Classes="Secondary"
-                        Click="OnView"
-                        Margin="0,0,12,0"/>
-                <Button Name="BtnEdit" 
-                        Grid.Column="2"
-                        Content="✏️ Редактировать"
-                        Classes="Secondary"
-                        Click="OnEdit"
-                        Margin="0,0,12,0"/>
-                <Button Name="BtnDelete" 
-                        Grid.Column="3"
-                        Content="🗑️ Уволить"
-                        Classes="Danger"
-                        Click="OnDelete"/>
-            </Grid>
+            <StackPanel>
+                <!-- Поиск -->
+                <Grid ColumnDefinitions="*,Auto,Auto,Auto" Margin="0,0,0,15">
+                    <TextBox Name="SearchBox" 
+                             Grid.Column="0"
+                             Watermark="🔍 Поиск по ФИО или email..."
+                             TextChanged="OnSearchTextChanged"
+                             Margin="0,0,15,0"/>
+                    <Button Name="BtnView" 
+                            Grid.Column="1"
+                            Content="👁️ Просмотр"
+                            Classes="Secondary"
+                            Click="OnView"
+                            Margin="0,0,12,0"/>
+                    <Button Name="BtnEdit" 
+                            Grid.Column="2"
+                            Content="✏️ Редактировать"
+                            Classes="Secondary"
+                            Click="OnEdit"
+                            Margin="0,0,12,0"/>
+                    <Button Name="BtnDelete" 
+                            Grid.Column="3"
+                            Content="🗑️ Уволить"
+                            Classes="Danger"
+                            Click="OnDelete"/>
+                </Grid>
+                
+                <!-- Фильтры и сортировка -->
+                <Grid ColumnDefinitions="Auto,*,Auto,*,Auto,Auto">
+                    <TextBlock Grid.Column="0" 
+                              Text="Отдел:" 
+                              VerticalAlignment="Center"
+                              Margin="0,0,10,0"/>
+                    <ComboBox Name="DepartmentFilter" 
+                             Grid.Column="1"
+                             SelectionChanged="OnFilterChanged"
+                             Margin="0,0,20,0"/>
+                    
+                    <TextBlock Grid.Column="2" 
+                              Text="Должность:" 
+                              VerticalAlignment="Center"
+                              Margin="0,0,10,0"/>
+                    <ComboBox Name="PositionFilter" 
+                             Grid.Column="3"
+                             SelectionChanged="OnFilterChanged"
+                             Margin="0,0,20,0"/>
+                    
+                    <TextBlock Grid.Column="4" 
+                              Text="Сортировка:" 
+                              VerticalAlignment="Center"
+                              Margin="0,0,10,0"/>
+                    <ComboBox Name="SortComboBox" 
+                             Grid.Column="5"
+                             SelectionChanged="OnSortChanged"
+                             SelectedIndex="0">
+                        <ComboBoxItem Content="По фамилии (А-Я)"/>
+                        <ComboBoxItem Content="По фамилии (Я-А)"/>
+                        <ComboBoxItem Content="По дате приема (новые)"/>
+                        <ComboBoxItem Content="По дате приема (старые)"/>
+                        <ComboBoxItem Content="По возрасту (младшие)"/>
+                        <ComboBoxItem Content="По возрасту (старшие)"/>
+                    </ComboBox>
+                </Grid>
+            </StackPanel>
         </Border>
         
         <!-- Таблица сотрудников -->
@@ -70,13 +110,13 @@
                   CanUserResizeColumns="True"
                   CanUserSortColumns="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="160"/>
-                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="140"/>
-                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="160"/>
-                <DataGridTextColumn Header="Отдел" Binding="{Binding Department.Name}" Width="190"/>
-                <DataGridTextColumn Header="Должность" Binding="{Binding Position.Name}" Width="190"/>
-                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="140"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="Auto"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="Auto"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="Auto"/>
+                <DataGridTextColumn Header="Отдел" Binding="{Binding Department.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Должность" Binding="{Binding Position.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="Auto"/>
                 <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>

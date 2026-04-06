@@ -55,9 +55,9 @@
                   CanUserResizeColumns="True"
                   CanUserSortColumns="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70"/>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="320"/>
-                <DataGridTextColumn Header="Базовый оклад" Binding="{Binding BaseSalary, StringFormat='{}{0:N0} ₽'}" Width="160"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Базовый оклад" Binding="{Binding BaseSalary, StringFormat='{}{0:N0} ₽'}" Width="Auto"/>
                 <DataGridTextColumn Header="Требования" Binding="{Binding Requirements}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>

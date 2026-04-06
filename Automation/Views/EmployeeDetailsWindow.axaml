@@ -74,9 +74,9 @@
                              IsReadOnly="True"
                              MaxHeight="160">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding ContractNumber}" Width="130"/>
-                            <DataGridTextColumn Header="Дата подписания" Binding="{Binding SignDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="160"/>
-                            <DataGridTextColumn Header="Окончание" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="160"/>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding ContractNumber}" Width="Auto"/>
+                            <DataGridTextColumn Header="Дата подписания" Binding="{Binding SignDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="Auto"/>
+                            <DataGridTextColumn Header="Окончание" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="Auto"/>
                             <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -96,10 +96,10 @@
                              IsReadOnly="True"
                              MaxHeight="160">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="130"/>
-                            <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
-                            <DataGridTextColumn Header="Конец" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
-                            <DataGridTextColumn Header="Дней" Binding="{Binding DaysCount}" Width="80"/>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="Auto"/>
+                            <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="Auto"/>
+                            <DataGridTextColumn Header="Конец" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="Auto"/>
+                            <DataGridTextColumn Header="Дней" Binding="{Binding DaysCount}" Width="Auto"/>
                             <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -119,9 +119,9 @@
                              IsReadOnly="True"
                              MaxHeight="160">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="170"/>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding Number}" Width="140"/>
-                            <DataGridTextColumn Header="Дата выдачи" Binding="{Binding IssueDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="140"/>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="Auto"/>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding Number}" Width="Auto"/>
+                            <DataGridTextColumn Header="Дата выдачи" Binding="{Binding IssueDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="Auto"/>
                             <DataGridTextColumn Header="Кем выдан" Binding="{Binding IssuedBy}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>

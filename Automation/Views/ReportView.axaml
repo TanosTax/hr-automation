@@ -145,9 +145,9 @@
                                  CanUserResizeColumns="True"
                                  MaxHeight="320">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Отдел" Binding="{Binding DepartmentName}" Width="260"/>
-                                <DataGridTextColumn Header="Сотрудников" Binding="{Binding EmployeeCount}" Width="130"/>
-                                <DataGridTextColumn Header="Средняя зарплата" Binding="{Binding AverageSalary, StringFormat='{}{0:N0} ₽'}" Width="160"/>
+                                <DataGridTextColumn Header="Отдел" Binding="{Binding DepartmentName}" Width="Auto"/>
+                                <DataGridTextColumn Header="Сотрудников" Binding="{Binding EmployeeCount}" Width="Auto"/>
+                                <DataGridTextColumn Header="Средняя зарплата" Binding="{Binding AverageSalary, StringFormat='{}{0:N0} ₽'}" Width="Auto"/>
                                 <DataGridTextColumn Header="Фонд оплаты труда" Binding="{Binding TotalSalary, StringFormat='{}{0:N0} ₽'}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -168,9 +168,9 @@
                                  CanUserResizeColumns="True"
                                  MaxHeight="280">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Сотрудник" Binding="{Binding FullName}" Width="260"/>
-                                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="160"/>
-                                <DataGridTextColumn Header="Возраст" Binding="{Binding Age}" Width="110"/>
+                                <DataGridTextColumn Header="Сотрудник" Binding="{Binding FullName}" Width="Auto"/>
+                                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="Auto"/>
+                                <DataGridTextColumn Header="Возраст" Binding="{Binding Age}" Width="Auto"/>
                                 <DataGridTextColumn Header="Отдел" Binding="{Binding Department.Name}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -191,11 +191,11 @@
                                  CanUserResizeColumns="True"
                                  MaxHeight="280">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="210"/>
-                                <DataGridTextColumn Header="Отдел" Binding="{Binding Employee.Department.Name}" Width="160"/>
-                                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="130"/>
-                                <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
-                                <DataGridTextColumn Header="Конец" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
+                                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="Auto"/>
+                                <DataGridTextColumn Header="Отдел" Binding="{Binding Employee.Department.Name}" Width="Auto"/>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="Auto"/>
+                                <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="Auto"/>
+                                <DataGridTextColumn Header="Конец" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="Auto"/>
                                 <DataGridTextColumn Header="Дней" Binding="{Binding DaysCount}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>

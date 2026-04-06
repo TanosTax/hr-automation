@@ -67,13 +67,13 @@
                   CanUserResizeColumns="True"
                   CanUserSortColumns="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="210"/>
-                <DataGridTextColumn Header="Отдел" Binding="{Binding Employee.Department.Name}" Width="160"/>
-                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="120"/>
-                <DataGridTextColumn Header="Приход" Binding="{Binding CheckIn}" Width="100"/>
-                <DataGridTextColumn Header="Уход" Binding="{Binding CheckOut}" Width="100"/>
-                <DataGridTextColumn Header="Часов" Binding="{Binding WorkedHours}" Width="100"/>
-                <DataGridCheckBoxColumn Header="Отсутствие" Binding="{Binding IsAbsent}" Width="120"/>
+                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="Auto"/>
+                <DataGridTextColumn Header="Отдел" Binding="{Binding Employee.Department.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat='{}{0:dd.MM.yyyy}'}" Width="Auto"/>
+                <DataGridTextColumn Header="Приход" Binding="{Binding CheckIn}" Width="Auto"/>
+                <DataGridTextColumn Header="Уход" Binding="{Binding CheckOut}" Width="Auto"/>
+                <DataGridTextColumn Header="Часов" Binding="{Binding WorkedHours}" Width="Auto"/>
+                <DataGridCheckBoxColumn Header="Отсутствие" Binding="{Binding IsAbsent}" Width="Auto"/>
                 <DataGridTextColumn Header="Причина отсутствия" Binding="{Binding AbsenceReason}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>

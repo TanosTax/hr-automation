@@ -64,14 +64,14 @@
                   CanUserResizeColumns="True"
                   CanUserSortColumns="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="210"/>
-                <DataGridTextColumn Header="Отдел" Binding="{Binding Employee.Department.Name}" Width="160"/>
-                <DataGridTextColumn Header="Период" Binding="{Binding Month}" Width="90"/>
-                <DataGridTextColumn Header="Оклад" Binding="{Binding BaseSalary, StringFormat='{}{0:N0} ₽'}" Width="120"/>
-                <DataGridTextColumn Header="Премия" Binding="{Binding Bonus, StringFormat='{}{0:N0} ₽'}" Width="120"/>
-                <DataGridTextColumn Header="Удержания" Binding="{Binding Deductions, StringFormat='{}{0:N0} ₽'}" Width="120"/>
-                <DataGridTextColumn Header="Итого" Binding="{Binding Total, StringFormat='{}{0:N0} ₽'}" Width="130"/>
-                <DataGridCheckBoxColumn Header="Выплачено" Binding="{Binding IsPaid}" Width="110"/>
+                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}" Width="Auto"/>
+                <DataGridTextColumn Header="Отдел" Binding="{Binding Employee.Department.Name}" Width="Auto"/>
+                <DataGridTextColumn Header="Период" Binding="{Binding Month}" Width="Auto"/>
+                <DataGridTextColumn Header="Оклад" Binding="{Binding BaseSalary, StringFormat='{}{0:N0} ₽'}" Width="Auto"/>
+                <DataGridTextColumn Header="Премия" Binding="{Binding Bonus, StringFormat='{}{0:N0} ₽'}" Width="Auto"/>
+                <DataGridTextColumn Header="Удержания" Binding="{Binding Deductions, StringFormat='{}{0:N0} ₽'}" Width="Auto"/>
+                <DataGridTextColumn Header="Итого" Binding="{Binding Total, StringFormat='{}{0:N0} ₽'}" Width="Auto"/>
+                <DataGridCheckBoxColumn Header="Выплачено" Binding="{Binding IsPaid}" Width="Auto"/>
                 <DataGridTextColumn Header="Примечания" Binding="{Binding Notes}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>

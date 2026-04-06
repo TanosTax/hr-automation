@@ -2,104 +2,176 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="700"
+        mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
         x:Class="Automation.MainWindow"
         Title="Система автоматизации кадрового учета"
-        Width="1200" Height="700"
-        WindowStartupLocation="CenterScreen">
+        Width="1920" Height="1080"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        SystemDecorations="None">
     
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Верхняя панель с кнопкой закрытия -->
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Background="#0F0F0F" Height="40">
+            <Grid>
+                <TextBlock Text="Система автоматизации кадрового учета" 
+                          FontSize="14" 
+                          FontWeight="SemiBold"
+                          Foreground="White"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Center"/>
+                <Button Content="✕" 
+                       Click="OnCloseApp"
+                       Width="40" 
+                       Height="40"
+                       FontSize="18"
+                       HorizontalAlignment="Right"
+                       Background="Transparent"
+                       Foreground="#808080"
+                       BorderThickness="0"
+                       Cursor="Hand"/>
+            </Grid>
+        </Border>
+        
+        <Grid Grid.Row="1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="280"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
         <!-- Боковое меню -->
-        <Border Grid.Column="0" Background="#1A1A1A" BorderBrush="#2D2D30" BorderThickness="0,0,1,0">
+        <Border Name="MenuPanel" Grid.Column="0" BorderBrush="#2D2D30" BorderThickness="0,0,1,0" BoxShadow="4 0 16 0 #00000040">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                    <GradientStop Color="#1A1A1A" Offset="0"/>
+                    <GradientStop Color="#0F0F0F" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
             <StackPanel>
                 <!-- Заголовок -->
-                <Border Background="#0E639C" Padding="20" Margin="0,0,0,20">
+                <Border Padding="20" Margin="0,0,0,25" BoxShadow="0 4 16 0 #00000060">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                            <GradientStop Color="#0E639C" Offset="0"/>
+                            <GradientStop Color="#1177BB" Offset="0.5"/>
+                            <GradientStop Color="#1A8FDD" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
                     <StackPanel>
-                        <TextBlock Text="HR" 
-                                  FontSize="32" 
-                                  FontWeight="Bold" 
+                        <TextBlock Text="HR System" 
+                                  FontSize="24" 
+                                  FontWeight="Black"
                                   Foreground="White"
                                   HorizontalAlignment="Center"/>
-                        <TextBlock Text="Automation" 
-                                  FontSize="14" 
-                                  Foreground="#B0E0FF"
+                        <TextBlock Name="UserInfoText"
+                                  Text="Пользователь"
+                                  FontSize="12"
+                                  Foreground="#E0F0FF"
                                   HorizontalAlignment="Center"
                                   Margin="0,5,0,0"/>
                     </StackPanel>
                 </Border>
                 
                 <!-- Меню -->
-                <StackPanel Margin="10,0">
+                <StackPanel Margin="12,0">
                     <Button Name="BtnEmployees" 
                             Content="👥 Сотрудники" 
                             Click="ShowEmployees"
                             Classes="MenuButton"
-                            Margin="0,5"/>
+                            Margin="0,6"/>
                     
                     <Button Name="BtnDepartments" 
                             Content="🏢 Отделы" 
                             Click="ShowDepartments"
                             Classes="MenuButton"
-                            Margin="0,5"/>
+                            Margin="0,6"/>
                     
                     <Button Name="BtnPositions" 
                             Content="💼 Должности" 
                             Click="ShowPositions"
                             Classes="MenuButton"
-                            Margin="0,5"/>
+                            Margin="0,6"/>
                     
                     <Button Name="BtnVacations" 
                             Content="🏖️ Отпуска" 
                             Click="ShowVacations"
                             Classes="MenuButton"
-                            Margin="0,5"/>
+                            Margin="0,6"/>
                     
                     <Button Name="BtnSalaries" 
                             Content="💰 Зарплаты" 
                             Click="ShowSalaries"
                             Classes="MenuButton"
-                            Margin="0,5"/>
+                            Margin="0,6"/>
                     
                     <Button Name="BtnSchedule" 
                             Content="📅 Табель" 
                             Click="ShowSchedule"
                             Classes="MenuButton"
-                            Margin="0,5"/>
+                            Margin="0,6"/>
                     
                     <Button Name="BtnReports" 
                             Content="📊 Отчеты" 
                             Click="ShowReports"
                             Classes="MenuButton"
-                            Margin="0,5"/>
+                            Margin="0,6"/>
+                    
+                    <Button Name="BtnLogout" 
+                            Content="🚪 Выход" 
+                            Click="OnLogout"
+                            Classes="MenuButton"
+                            Margin="0,20,0,6"/>
                 </StackPanel>
             </StackPanel>
         </Border>
         
         <!-- Основная область контента -->
-        <Border Grid.Column="1" Background="#252526">
+        <Border Name="ContentAreaBorder" Grid.Column="1">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="#252526" Offset="0"/>
+                    <GradientStop Color="#1E1E1E" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
             <ContentControl Name="ContentArea">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock Text="👋" 
-                              FontSize="64" 
-                              HorizontalAlignment="Center"
-                              Margin="0,0,0,20"/>
-                    <TextBlock Text="Добро пожаловать!" 
-                              FontSize="28" 
-                              FontWeight="Bold"
-                              Foreground="White"
-                              HorizontalAlignment="Center"
-                              Margin="0,0,0,10"/>
-                    <TextBlock Text="Выберите раздел в меню слева" 
-                              FontSize="16" 
-                              Foreground="#808080"
-                              HorizontalAlignment="Center"/>
+                    <Border CornerRadius="24" Padding="60,50" BoxShadow="0 16 48 0 #00000080">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                <GradientStop Color="#0E639C" Offset="0"/>
+                                <GradientStop Color="#1177BB" Offset="0.5"/>
+                                <GradientStop Color="#7C3AED" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel>
+                            <TextBlock Text="👋" 
+                                      FontSize="72" 
+                                      HorizontalAlignment="Center"
+                                      Margin="0,0,0,25"/>
+                            <TextBlock Text="Добро пожаловать!" 
+                                      FontSize="34" 
+                                      FontWeight="Black"
+                                      Foreground="White"
+                                      HorizontalAlignment="Center"
+                                      Margin="0,0,0,12"/>
+                            <TextBlock Text="Выберите раздел в меню слева" 
+                                      FontSize="17" 
+                                      Foreground="#E0F0FF"
+                                      HorizontalAlignment="Center"
+                                      FontWeight="Medium"/>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </ContentControl>
         </Border>
+        </Grid>
     </Grid>
 </Window>
